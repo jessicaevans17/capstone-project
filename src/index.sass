@@ -22,6 +22,7 @@ body
   min-height: 100%
   font: 16px / 1 sans-serif
 
+// navbar styling
 nav 
   +flex-row
   justify-content: space-between
@@ -31,6 +32,11 @@ nav
     align-items: flex-end
   .sign-in-info
     +flex-row
+    align-items: center
+    justify-content: flex-end
+    a
+      text-align: right
+
     img
       height: 3rem
       border-radius: 10rem
@@ -41,6 +47,11 @@ nav
   button
     background-color: $secondary-color
     +border(0rem, $tertiary-color ,2px)
-    height: 1.5rem;
+    height: 1.5rem
+    margin-right: 0.5rem
+  input 
+    margin-bottom: 1rem
+    margin-right: 0.5rem
+    margint-top: 0.5rem
     
 
