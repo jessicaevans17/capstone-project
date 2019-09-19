@@ -1,0 +1,44 @@
+@import "mixins.sass"
+@import "variables.sass"
+
+.profile-page-main
+  +flex-column
+  align-items: center
+  color: $tertiary-color
+  h1 
+    text-align: center
+    margin-bottom: 0rem
+  
+  strong
+    font-size: 1.1rem
+
+  .user-info
+    +flex-column
+    +border(1rem, $black, 1px)
+    background-color: $secondary-color
+    color: $tertiary-color
+    margin-top: 1rem
+    padding: 1rem 1rem
+
+    img   
+      height: 6rem
+      +border(5rem ,$tertiary-color ,3px)
+      align-self: center
+  a 
+    text-decoration: none
+    color: $tertiary-color
+
+  .game-info
+    +border(1rem, $black, 1px)
+    background-color: $secondary-color
+    color: $tertiary-color
+    margin: 1rem 1rem
+    padding: 0rem 1rem
+  
+
+  .upcoming-games
+    h1 
+      text-align: center
+      margin: 0.5rem 1rem
+
+  

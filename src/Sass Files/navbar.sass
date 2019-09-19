@@ -1,0 +1,47 @@
+@import "mixins.sass"
+@import "variables.sass"
+
+nav 
+  +flex-row
+  justify-content: space-between
+  background-color: $primary-color
+  border-bottom: solid $black 1px
+  border-top: solid $black 1px
+  margin-top: 1rem
+  padding-top: 0.5rem
+
+  .page-nav 
+    +flex-column
+    align-items: flex-end
+
+  .sign-in-info
+    +flex-row
+    align-items: center
+    justify-content: flex-end
+    margin: 1rem 0.5rem
+
+    a
+      text-align: right
+      text-decoration: none
+      color: $black
+
+    img
+      height: 3rem
+      +border(10rem, $tertiary-color ,1.5px)
+      margin: 0.5rem 
+
+  .logo
+
+    img
+      height: 6rem
+
+  button
+    background-color: $secondary-color
+    +border(0.25rem, $tertiary-color ,1px)
+    height: 1.5rem
+    margin-right: 0.5rem
+
+  input 
+    margin-bottom: 1rem
+    margin-right: 0.5rem
+    margint-top: 0.5rem
