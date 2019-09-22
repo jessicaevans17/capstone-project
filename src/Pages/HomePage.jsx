@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 const HomePage = () => {
   return (
     <>
-      <main>
+      <main className="main-homepage">
         <section className="content">
           <h1 className="main-prompt">
             Have a board game you want to play, but no one to play it with?

@@ -1,0 +1,46 @@
+@import "variables.sass"
+@import "mixins.sass"
+
+.create-game-main
+  margin: 0rem 1rem 
+
+  h1  
+    margin: 1rem 0rem
+
+  .form-container
+    +border(1rem, $black, 1px)
+    padding: 1rem 0rem 2rem 0rem
+    background-color: $tertiary-color
+  
+   
+
+  form 
+    margin-bottom: 1rem
+    +flex-column
+    margin: 0rem 2rem
+    background-color: $secondary-color
+    +border(1rem, $black, 1px)
+    padding: 1rem 0rem
+    
+  button
+    background-color: $tertiary-color
+    +border(1rem, $black, 1px)
+    color: $secondary-color
+    margin: 0.5rem 3rem;
+    +primary-font
+
+  
+    
+
+.game-form-item
+  +flex-column
+  align-items: flex-start
+  padding-left: 0.5rem
+
+  input
+    margin-bottom: 0.5rem
+    width: 12rem
+
+  label
+    margin-bottom: 0.5rem
+  

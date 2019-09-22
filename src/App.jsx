@@ -8,11 +8,20 @@ import Footer from "./components/Footer"
 import ProfilePage from "./Pages/ProfilePage"
 import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
+import BackSplash from "./images/backsplash.jpg"
 
 class App extends Component {
   render() {
     return (
-      <>
+      <div
+        style={{
+          backgroundImage: `url(${BackSplash})`,
+          WebkitBackgroundSize: "cover",
+          MozBackgroundSize: "cover",
+          OBackgroundSize: "cover",
+          BackgroundSize: "cover"
+        }}
+      >
         <Router>
           <NavBar />
           <Switch>
@@ -25,7 +34,7 @@ class App extends Component {
           </Switch>
           <Footer />
         </Router>
-      </>
+      </div>
     )
   }
 }

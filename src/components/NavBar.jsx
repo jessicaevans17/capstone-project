@@ -16,6 +16,9 @@ const NavBar = () => {
               <img src={Logo} alt="Website Logo" />
             </Link>
           </section>
+          <section className="nav-create-game">
+            <Link to="/new/game">Create a Game</Link>
+          </section>
           <section className="page-nav">
             <div className="sign-in-info">
               <Link to="/login" className="login" href="#">
@@ -23,14 +26,14 @@ const NavBar = () => {
               </Link>
               {/* <img src={Profile} alt="User's Profile Picture" /> */}
             </div>
-            <div>
+            {/* <div>
               <input
                 type="text"
                 className="search-bar"
                 placeholder="Enter Zip Code."
               />
               <button className="search-button">{element}</button>
-            </div>
+            </div> */}
           </section>
         </nav>
       </header>
