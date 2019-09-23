@@ -1,17 +1,17 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const GameInfo = () => {
+const GameInfo = props => {
   return (
     <>
       <div className="game-info">
         <Link to="/view/game">
-          <h2>Settlers of Catan</h2>
+          <h2>{props.title}</h2>
           <p>
-            <strong>Location:</strong> Hawthorne Bottle Shop
+            <strong>Location:</strong> {props.address}
           </p>
           <p>
-            <strong>Date and Time:</strong> Saturday, October 5, 2019 at 12:00pm
+            <strong>Date and Time:</strong> {props.date} {props.time}
           </p>
           <p>
             <strong>Players still needed?</strong> Yes
