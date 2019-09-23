@@ -1,10 +1,19 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import Backsplash from "../images/backsplash.jpg"
+import { CoverageMap } from "istanbul-lib-coverage"
 
 const HomePage = () => {
   return (
     <>
-      <main className="main-homepage">
+      <main
+        style={{
+          backgroundImage: `url(${Backsplash})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover"
+        }}
+        className="main-homepage"
+      >
         <section className="content">
           <h1 className="main-prompt">
             Have a board game you want to play, but no one to play it with?
