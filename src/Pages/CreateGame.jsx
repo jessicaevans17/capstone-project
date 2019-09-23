@@ -8,10 +8,19 @@ const CreateGame = () => {
   const [locationAddress, setLocationAddress] = useState("")
   const [locationState, setLocationState] = useState("")
   const [locationZip, setLocationZip] = useState("")
+  const [locationCity, setLocationCity] = useState("")
   const [minPlayers, setMinPlayers] = useState("")
   const [maxPlayers, setMaxPlayers] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [boardGameData, setBoardGameData] = useState([])
 
+  const searchBoardgames = async searchText => {
+    const resp = await axios.get(
+      `https://www.boardgameatlas.com/api/search?name=${gameTitle}&client_id=bxCT4QGQRS`
+    )
+    console.log(resp.data)
+    setBoardGameData(resp.data)
+  }
   const submitData = async event => {
     event.preventDefault()
     const resp = await axios.post("https://localhost:5001/api/Games", {
@@ -21,7 +30,10 @@ const CreateGame = () => {
       minPlayers: minPlayers,
       maxPlayers: maxPlayers,
       creator: "Jessica Evans",
-      dateOfPlay: dateTime
+      dateOfPlay: dateTime,
+      locationName: locationName,
+      city: locationCity,
+      state: locationState
     })
 
     setIsSubmitted(true)
@@ -39,9 +51,14 @@ const CreateGame = () => {
     setLocationAddress("")
     setLocationState("")
     setLocationZip("")
+    setLocationCity("")
     setMinPlayers("")
     setMaxPlayers("")
   }
+
+  // useEffect(() => {
+  //   searchBoardgames()
+  // })
 
   return (
     <main className="create-game-main">
@@ -57,7 +74,11 @@ const CreateGame = () => {
               }}
               value={gameTitle}
               placeholder="Title of Game"
+              sel
             />
+            <button onClick={searchBoardgames} className="game-search-button">
+              Search
+            </button>
           </div>
           <div className="game-form-item">
             <label>When do you want to play?</label>
@@ -86,6 +107,14 @@ const CreateGame = () => {
               }}
               value={locationAddress}
               placeholder="Address"
+            />
+            <input
+              type="text"
+              onChange={e => {
+                setLocationCity(e.target.value)
+              }}
+              value={locationCity}
+              placeholder="City"
             />
             <input
               type="text"
