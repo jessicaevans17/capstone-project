@@ -140,7 +140,11 @@ const CreateGame = () => {
               placeholder="Number"
             />
           </div>
-          <button id="create-game-button" type="submit">
+          <button
+            style={{ cursor: "pointer" }}
+            id="create-game-button"
+            type="submit"
+          >
             Create Game
           </button>
           {isSubmitted ? (
