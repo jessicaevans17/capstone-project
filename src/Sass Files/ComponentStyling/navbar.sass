@@ -15,7 +15,19 @@ nav
   .page-nav 
     +flex-column
     align-items: flex-end
+  
+  .right-side-navlinks
+    +flex-row 
+    justify-content: space-around
+    align-items: center
+    
+    section 
+      margin: 0rem 1rem
+      font-size: 1.1rem
 
+      a 
+        text-decoration: none
+        color: $black
   .sign-in-info
     +flex-row
     align-items: center
@@ -35,7 +47,8 @@ nav
   .logo
 
     img
-      height: 6rem
+      height: 8rem
+      
 
   button
     background-color: $secondary-color

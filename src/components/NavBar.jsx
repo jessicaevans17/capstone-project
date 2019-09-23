@@ -16,17 +16,18 @@ const NavBar = () => {
               <img src={Logo} alt="Website Logo" />
             </Link>
           </section>
-          <section className="nav-create-game">
-            <Link to="/new/game">Create a Game</Link>
-          </section>
-          <section className="page-nav">
-            <div className="sign-in-info">
-              <Link to="/login" className="login" href="#">
-                Sign In / Create an Account
-              </Link>
-              {/* <img src={Profile} alt="User's Profile Picture" /> */}
-            </div>
-            {/* <div>
+          <div className="right-side-navlinks">
+            <section className="nav-create-game">
+              <Link to="/new/game">Create a Game</Link>
+            </section>
+            <section className="page-nav">
+              <div className="sign-in-info">
+                <Link to="/login" className="login" href="#">
+                  Sign In / Create an Account
+                </Link>
+                {/* <img src={Profile} alt="User's Profile Picture" /> */}
+              </div>
+              {/* <div>
               <input
                 type="text"
                 className="search-bar"
@@ -34,7 +35,8 @@ const NavBar = () => {
               />
               <button className="search-button">{element}</button>
             </div> */}
-          </section>
+            </section>
+          </div>
         </nav>
       </header>
     </>
