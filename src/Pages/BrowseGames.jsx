@@ -4,7 +4,11 @@ import axios from "axios"
 
 const BrowseGames = () => {
   const [games, setGames] = useState([])
-  const options = { year: "numeric", month: "long", day: "numeric" }
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  }
   const fetchData = async () => {
     const resp = await axios.get("https://localhost:5001/api/Games")
     console.log(resp.data)
@@ -25,8 +29,7 @@ const BrowseGames = () => {
               key={i}
               title={game.gameTitle}
               address={game.address}
-              date={new Date(game.dateOfPlay).toLocaleDateString([], options)}
-              time="5:00PM"
+              date={new Date(game.dateOfPlay).toLocaleString([], options)}
             />
           )
         })}

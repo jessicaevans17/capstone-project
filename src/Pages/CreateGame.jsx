@@ -3,8 +3,7 @@ import axios from "axios"
 
 const CreateGame = () => {
   const [gameTitle, setGameTitle] = useState("")
-  const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
+  const [dateTime, setDateTime] = useState("")
   const [locationName, setLocationName] = useState("")
   const [locationAddress, setLocationAddress] = useState("")
   const [locationState, setLocationState] = useState("")
@@ -22,7 +21,7 @@ const CreateGame = () => {
       minPlayers: minPlayers,
       maxPlayers: maxPlayers,
       creator: "Jessica Evans",
-      dateOfPlay: date
+      dateOfPlay: dateTime
     })
 
     setIsSubmitted(true)
@@ -35,8 +34,7 @@ const CreateGame = () => {
 
   const reset = () => {
     setGameTitle("")
-    setDate("")
-    setTime("")
+    setDateTime("")
     setLocationName("")
     setLocationAddress("")
     setLocationState("")
@@ -64,23 +62,11 @@ const CreateGame = () => {
           <div className="game-form-item">
             <label>When do you want to play?</label>
             <input
-              type="date"
+              type="datetime-local"
               onChange={e => {
-                setDate(e.target.value)
+                setDateTime(e.target.value)
               }}
-              value={date}
-            />
-          </div>
-          <div className="game-form-item">
-            <label>What time?</label>
-            <input
-              type="time"
-              onChange={e => {
-                setTime(e.target.value)
-              }}
-              value={time}
-              name="game-time"
-              id="game-time"
+              value={dateTime}
             />
           </div>
           <div className="game-form-item">
