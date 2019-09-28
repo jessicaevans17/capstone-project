@@ -1,67 +1,63 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useReducer } from "react"
 import axios from "axios"
 
-const CreateGame = () => {
-  const [gameTitle, setGameTitle] = useState("")
-  const [dateTime, setDateTime] = useState("")
-  const [locationName, setLocationName] = useState("")
-  const [locationAddress, setLocationAddress] = useState("")
-  const [locationState, setLocationState] = useState("")
-  const [locationZip, setLocationZip] = useState("")
-  const [locationCity, setLocationCity] = useState("")
-  const [minPlayers, setMinPlayers] = useState("")
-  const [maxPlayers, setMaxPlayers] = useState("")
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [boardGameData, setBoardGameData] = useState([])
-
-  const searchBoardgames = async searchText => {
-    const resp = await axios.get(
-      `https://www.boardgameatlas.com/api/search?name=${searchText}&client_id=bxCT4QGQRS`
-    )
-    console.log(resp.data)
-    setBoardGameData(resp.data)
-
-    let matches = boardGameData.filter(game => {
-      const regex = new RegExp(`^${searchText}`, "gi")
-      return game.name.match(regex)
-    })
-    console.log(matches)
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case "field": {
+      return {
+        ...state,
+        [action.fieldName]: action.payload
+      }
+    }
+    default:
+      return state
   }
+}
+
+const initialState = {
+  gameTitle: "",
+  dateTime: "",
+  locationName: "",
+  locationAddress: "",
+  locationState: "",
+  locationZip: "",
+  locationCity: "",
+  minPlayers: "",
+  maxPlayers: "",
+  isSubmitted: false,
+  boardGameData: ""
+}
+
+const CreateGame = () => {
+  const [state, dispatch] = useReducer(formReducer, initialState)
+  const {
+    gameTitle,
+    dateTime,
+    locationName,
+    locationAddress,
+    locationState,
+    locationZip,
+    locationCity,
+    minPlayers,
+    maxPlayers,
+    isSubmitted
+  } = state
+
   const submitData = async event => {
     event.preventDefault()
+    dispatch({ type: "submit" })
     const resp = await axios.post("https://localhost:5001/api/Games", {
       gameTitle: gameTitle,
       zipCode: locationZip,
       address: locationAddress,
       minPlayers: minPlayers,
       maxPlayers: maxPlayers,
-      creator: "Jessica Evans",
       dateOfPlay: dateTime,
       locationName: locationName,
       city: locationCity,
       state: locationState
     })
-
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setIsSubmitted(false)
-    }, 3000)
-    reset()
-    console.log(resp.data)
   }
-
-  const reset = () => {
-    setGameTitle("")
-    setDateTime("")
-    setLocationName("")
-    setLocationAddress("")
-    setLocationState("")
-    setLocationZip("")
-    setLocationCity("")
-    setMinPlayers("")
-    setMaxPlayers("")
-  }
-
   return (
     <main className="create-game-main">
       <h1>Create a New Game</h1>
@@ -71,19 +67,28 @@ const CreateGame = () => {
             <label>What game do you want to play?</label>
             <input
               type="text"
-              onBlur={e => {
-                searchBoardgames(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "gameTitle",
+                  payload: e.currentTarget.value
+                })
+              }
               placeholder="Title of Game"
+              value={gameTitle}
             />
           </div>
           <div className="game-form-item">
             <label>When do you want to play?</label>
             <input
               type="datetime-local"
-              onChange={e => {
-                setDateTime(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "dateTime",
+                  payload: e.currentTarget.value
+                })
+              }
               value={dateTime}
             />
           </div>
@@ -91,41 +96,61 @@ const CreateGame = () => {
             <label>Where do you want to play?</label>
             <input
               type="text"
-              onChange={e => {
-                setLocationName(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "locationName",
+                  payload: e.currentTarget.value
+                })
+              }
               value={locationName}
               placeholder="Name of Place (i.e. My House, 3 Daughters)"
             />
             <input
               type="text"
-              onChange={e => {
-                setLocationAddress(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "locationAddress",
+                  payload: e.currentTarget.value
+                })
+              }
               value={locationAddress}
               placeholder="Address"
             />
             <input
               type="text"
-              onChange={e => {
-                setLocationCity(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "locationCity",
+                  payload: e.currentTarget.value
+                })
+              }
               value={locationCity}
               placeholder="City"
             />
             <input
               type="text"
-              onChange={e => {
-                setLocationState(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "locationState",
+                  payload: e.currentTarget.value
+                })
+              }
               value={locationState}
               placeholder="State"
             />
             <input
               type="number"
-              onChange={e => {
-                setLocationZip(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "locationZip",
+                  payload: e.currentTarget.value
+                })
+              }
               value={locationZip}
               placeholder="Zip Code"
             />
@@ -134,9 +159,13 @@ const CreateGame = () => {
             <label>Minimum number of players needed? </label>
             <input
               type="number"
-              onChange={e => {
-                setMinPlayers(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "minPlayers",
+                  payload: e.currentTarget.value
+                })
+              }
               value={minPlayers}
               placeholder="Number"
             />
@@ -145,9 +174,13 @@ const CreateGame = () => {
             <label>Maximum number of players allowed? </label>
             <input
               type="number"
-              onChange={e => {
-                setMaxPlayers(e.target.value)
-              }}
+              onChange={e =>
+                dispatch({
+                  type: "field",
+                  fieldName: "maxPlayers",
+                  payload: e.currentTarget.value
+                })
+              }
               value={maxPlayers}
               placeholder="Number"
             />
@@ -171,5 +204,4 @@ const CreateGame = () => {
     </main>
   )
 }
-
 export default CreateGame
