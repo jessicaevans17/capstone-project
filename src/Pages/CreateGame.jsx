@@ -16,10 +16,16 @@ const CreateGame = () => {
 
   const searchBoardgames = async searchText => {
     const resp = await axios.get(
-      `https://www.boardgameatlas.com/api/search?name=${gameTitle}&client_id=bxCT4QGQRS`
+      `https://www.boardgameatlas.com/api/search?name=${searchText}&client_id=bxCT4QGQRS`
     )
     console.log(resp.data)
     setBoardGameData(resp.data)
+
+    let matches = boardGameData.filter(game => {
+      const regex = new RegExp(`^${searchText}`, "gi")
+      return game.name.match(regex)
+    })
+    console.log(matches)
   }
   const submitData = async event => {
     event.preventDefault()
@@ -56,10 +62,6 @@ const CreateGame = () => {
     setMaxPlayers("")
   }
 
-  // useEffect(() => {
-  //   searchBoardgames()
-  // })
-
   return (
     <main className="create-game-main">
       <h1>Create a New Game</h1>
@@ -69,16 +71,11 @@ const CreateGame = () => {
             <label>What game do you want to play?</label>
             <input
               type="text"
-              onChange={e => {
-                setGameTitle(e.target.value)
+              onBlur={e => {
+                searchBoardgames(e.target.value)
               }}
-              value={gameTitle}
               placeholder="Title of Game"
-              sel
             />
-            <button onClick={searchBoardgames} className="game-search-button">
-              Search
-            </button>
           </div>
           <div className="game-form-item">
             <label>When do you want to play?</label>
