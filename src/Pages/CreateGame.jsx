@@ -9,6 +9,19 @@ const formReducer = (state, action) => {
         [action.fieldName]: action.payload
       }
     }
+    case "submit": {
+      return {
+        ...state,
+        isSubmitted: true
+      }
+    }
+
+    case "reset": {
+      return {
+        initialState
+      }
+    }
+
     default:
       return state
   }
@@ -57,6 +70,7 @@ const CreateGame = () => {
       city: locationCity,
       state: locationState
     })
+    setTimeout(dispatch({ type: "reset" }), 3000)
   }
   return (
     <main className="create-game-main">
