@@ -1,12 +1,9 @@
 import React from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faDice } from "@fortawesome/free-solid-svg-icons"
 import Logo from "../images/logo.png"
-import Profile from "../images/profilepic.jpg"
 import { Link } from "react-router-dom"
-const element = <FontAwesomeIcon icon={faDice} />
-
+import { useAuth0 } from "../react-auth0-wrapper"
 const NavBar = () => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
   return (
     <>
       <header>
@@ -22,19 +19,26 @@ const NavBar = () => {
             </section>
             <section className="page-nav">
               <div className="sign-in-info">
-                <Link to="/login" className="login" href="#">
-                  Sign In / Create an Account
-                </Link>
-                {/* <img src={Profile} alt="User's Profile Picture" /> */}
+                {!isAuthenticated && (
+                  <button
+                    className="login"
+                    onClick={() => loginWithRedirect({})}
+                  >
+                    Log in
+                  </button>
+                )}
+                {isAuthenticated && (
+                  <button className="login" onClick={() => logout({})}>
+                    Log out
+                  </button>
+                )}
+                {isAuthenticated && (
+                  <span>
+                    <Link to="/">Home</Link>&nbsp;
+                    <Link to="/profile">Profile</Link>
+                  </span>
+                )}
               </div>
-              {/* <div>
-              <input
-                type="text"
-                className="search-bar"
-                placeholder="Enter Zip Code."
-              />
-              <button className="search-button">{element}</button>
-            </div> */}
             </section>
           </div>
         </nav>

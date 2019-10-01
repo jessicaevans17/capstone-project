@@ -9,6 +9,9 @@ import ProfilePage from "./Pages/ProfilePage"
 import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
 import BackSplash from "./images/backsplash.jpg"
+import { useAuth0 } from "./react-auth0-wrapper"
+import Profile from "./components/profile"
+import PrivateRoute from "./components/PrivateRoute"
 
 class App extends Component {
   render() {
@@ -20,7 +23,7 @@ class App extends Component {
             <Route exact path="/" component={HomePage}></Route>
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/browse/games" component={BrowseGames}></Route>
-            <Route exact path="/profile" component={ProfilePage}></Route>
+            <PrivateRoute path="/profile" component={Profile} />
             <Route exact path="/new/game" component={CreateGame}></Route>
             <Route exact path="/view/game" component={Game}></Route>
           </Switch>
