@@ -18,7 +18,17 @@ const formReducer = (state, action) => {
 
     case "reset": {
       return {
-        initialState
+        gameTitle: "",
+        dateTime: "",
+        locationName: "",
+        locationAddress: "",
+        locationState: "",
+        locationZip: "",
+        locationCity: "",
+        minPlayers: "",
+        maxPlayers: "",
+        isSubmitted: false,
+        boardGameData: ""
       }
     }
 
