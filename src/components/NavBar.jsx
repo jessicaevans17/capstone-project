@@ -3,7 +3,8 @@ import Logo from "../images/logo.png"
 import { Link } from "react-router-dom"
 import { useAuth0 } from "../react-auth0-wrapper"
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
+  console.log(user)
   return (
     <>
       <header>
@@ -24,19 +25,21 @@ const NavBar = () => {
                     className="login"
                     onClick={() => loginWithRedirect({})}
                   >
-                    Log in
+                    Log In / Sign Up
                   </button>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <Link to="/profile">
+                      {/* <img src={user.picture} alt={user.name} /> */}
+                      Profile
+                    </Link>
+                  </>
                 )}
                 {isAuthenticated && (
                   <button className="login" onClick={() => logout({})}>
                     Log out
                   </button>
-                )}
-                {isAuthenticated && (
-                  <span>
-                    <Link to="/">Home</Link>&nbsp;
-                    <Link to="/profile">Profile</Link>
-                  </span>
                 )}
               </div>
             </section>
