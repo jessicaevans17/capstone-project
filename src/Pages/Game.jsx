@@ -2,14 +2,21 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Profile from "../images/profilepic.jpg"
 
-const Game = () => {
+const Game = props => {
+  const data = props.location.state.game
+  console.log(data)
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  }
   return (
     <>
       <main className="game-details">
         <h1>Game Information</h1>
         <div className="detailed-game-info">
           <p>
-            <strong>Game:</strong> Settlers of Catan
+            <strong>Game:</strong> {data.gameTitle}
           </p>
           <div className="players-attending join-info">
             <p>
@@ -22,16 +29,21 @@ const Game = () => {
             </section>
           </div>
           <p>
-            <strong>Date:</strong> October 5, 2019
+            <strong>Date:</strong>
+            {new Date(data.dateOfPlay).toLocaleString([], options)}
           </p>
           <p>
-            <strong>Time:</strong> 12:00pm
+            <strong>Time:</strong> {new Date(data.dateOfPlay).toTimeString()}
           </p>
           <p>
-            <strong>Where:</strong> 2927 Central Ave, St. Petersburg, FL 33713
+            <strong>Where:</strong> {data.locationName}
+            {data.address}
+            {data.city}
+            {data.state}
+            {data.zipCode}
           </p>
           <p>
-            <strong> Number of Players Needed:</strong> 2
+            <strong> Number of Players Needed:</strong> {data.minPlayers}
           </p>
           <div className="players-attending">
             <p>
@@ -61,5 +73,4 @@ const Game = () => {
     </>
   )
 }
-
 export default Game

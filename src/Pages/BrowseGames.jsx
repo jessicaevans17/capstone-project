@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import GameInfo from "../components/GameInfo"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const BrowseGames = () => {
   const [games, setGames] = useState([])
@@ -25,17 +26,23 @@ const BrowseGames = () => {
         <h1>Browse Games</h1>
         {games.map((game, i) => {
           return (
-            <GameInfo
-              key={i}
-              title={game.gameTitle}
-              address={game.address}
-              date={new Date(game.dateOfPlay).toLocaleString([], options)}
-            />
+            <Link
+              to={{
+                pathname: `/${game.id}`,
+                state: { game }
+              }}
+            >
+              <GameInfo
+                key={i}
+                title={game.gameTitle}
+                address={game.address}
+                date={new Date(game.dateOfPlay).toLocaleString([], options)}
+              />
+            </Link>
           )
         })}
       </main>
     </>
   )
 }
-
 export default BrowseGames
