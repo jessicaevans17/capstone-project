@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react"
 import axios from "axios"
+import { useAuth0 } from "../react-auth0-wrapper"
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -18,7 +19,17 @@ const formReducer = (state, action) => {
 
     case "reset": {
       return {
-        initialState
+        gameTitle: "",
+        dateTime: "",
+        locationName: "",
+        locationAddress: "",
+        locationState: "",
+        locationZip: "",
+        locationCity: "",
+        minPlayers: "",
+        maxPlayers: "",
+        isSubmitted: false,
+        boardGameData: ""
       }
     }
 
@@ -43,6 +54,7 @@ const initialState = {
 
 const CreateGame = () => {
   const [state, dispatch] = useReducer(formReducer, initialState)
+  const { user } = useAuth0()
   const {
     gameTitle,
     dateTime,
@@ -68,8 +80,10 @@ const CreateGame = () => {
       dateOfPlay: dateTime,
       locationName: locationName,
       city: locationCity,
-      state: locationState
+      state: locationState,
+      creator: user.name
     })
+    console.log(resp)
     setTimeout(dispatch({ type: "reset" }), 3000)
   }
   return (
