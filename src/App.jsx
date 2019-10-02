@@ -23,8 +23,6 @@ class App extends Component {
             <Route exact path="/" component={HomePage}></Route>
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/browse/games" component={BrowseGames}></Route>
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/new/game" component={CreateGame} />
           </Switch>
           <Footer />
         </Router>
