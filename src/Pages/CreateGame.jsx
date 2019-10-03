@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react"
 import axios from "axios"
-import { useAuth0 } from "../react-auth0-wrapper"
+// import { useAuth0 } from "../react-auth0-wrapper"
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -54,7 +54,7 @@ const initialState = {
 
 const CreateGame = () => {
   const [state, dispatch] = useReducer(formReducer, initialState)
-  const { user } = useAuth0()
+  // const { user } = useAuth0()
   const {
     gameTitle,
     dateTime,
@@ -67,6 +67,16 @@ const CreateGame = () => {
     maxPlayers,
     isSubmitted
   } = state
+  const searchGames = async title => {
+    console.log("searching games")
+    const resp = await axios.get(
+      `https://www.boardgameatlas.com/api/search?name=${title}&client_id=bxCT4QGQRS&limit=30`
+    )
+    console.log(resp.data)
+  }
+  useEffect(() => {
+    searchGames(gameTitle)
+  }, [gameTitle])
 
   const submitData = async event => {
     event.preventDefault()
@@ -80,8 +90,8 @@ const CreateGame = () => {
       dateOfPlay: dateTime,
       locationName: locationName,
       city: locationCity,
-      state: locationState,
-      creator: user.name
+      state: locationState
+      // creator: user.name
     })
     console.log(resp)
     setTimeout(dispatch({ type: "reset" }), 3000)

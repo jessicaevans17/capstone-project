@@ -5,13 +5,11 @@ import HomePage from "./Pages/HomePage"
 import Login from "./Pages/Login"
 import BrowseGames from "./Pages/BrowseGames"
 import Footer from "./components/Footer"
-import ProfilePage from "./Pages/ProfilePage"
 import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
-import BackSplash from "./images/backsplash.jpg"
-import { useAuth0 } from "./react-auth0-wrapper"
 import Profile from "./components/profile"
 import PrivateRoute from "./components/PrivateRoute"
+import AutoSuggest from "./components/AutoSuggest"
 
 class App extends Component {
   render() {
@@ -24,7 +22,7 @@ class App extends Component {
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/browse/games" component={BrowseGames}></Route>
             <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/new/game" component={CreateGame} />
+            <Route path="/new/game" component={AutoSuggest} />
             <Route exact path="/:id" component={Game}></Route>
           </Switch>
           <Footer />

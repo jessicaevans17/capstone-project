@@ -1,6 +1,6 @@
 import React from "react"
 import Profile from "../images/profilepic.jpg"
-import { Link } from "react-router-dom"
+
 import GameInfo from "../components/GameInfo"
 const ProfilePage = () => {
   return (
