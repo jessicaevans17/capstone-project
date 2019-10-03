@@ -101,7 +101,7 @@ const CreateGame = () => {
       <h1>Create a New Game</h1>
       <div className="form-container">
         <form onSubmit={submitData}>
-          <ul>{suggestions.map()}</ul>
+          {/* <ul>{suggestions.map()}</ul> */}
           <div className="game-form-item">
             <label>What game do you want to play?</label>
             <input
