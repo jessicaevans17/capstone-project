@@ -12,9 +12,9 @@ const GameInfo = props => {
         <p>
           <strong>Date and Time:</strong> {props.date} {props.time}
         </p>
-        <p>
+        {/* <p>
           <strong>Players still needed?</strong> Yes
-        </p>
+        </p> */}
       </div>
     </>
   )

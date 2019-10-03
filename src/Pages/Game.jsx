@@ -55,7 +55,7 @@ const Game = props => {
               </Link>
             </section>
           </div>
-          <p>
+          {/* <p>
             <strong>Game Description:</strong> The women and men of your
             expedition build the first two settlements. Fortunately, the land is
             rich in natural resources. You build roads and new settlements that
@@ -67,7 +67,7 @@ const Game = props => {
             settlements in the right places and skillfully trade your resources,
             then the odds will be in your favor. But your opponents are smart
             too.
-          </p>
+          </p> */}
         </div>
       </main>
     </>
