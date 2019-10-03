@@ -5,7 +5,7 @@ import axios from "axios"
 // Imagine you have a list of languages that you'd like to autosuggest.
 const languages = [
   {
-    name: "Catan",
+    name: "C",
     year: 1972
   },
   {

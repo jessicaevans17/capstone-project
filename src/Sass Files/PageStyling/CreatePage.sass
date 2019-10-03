@@ -3,12 +3,13 @@
 
 .create-game-main
   margin: 0rem 1rem 
+  
 
   h1  
     margin: 1rem 0rem
 
   .form-container
-    +border(1rem, $black, 1px)
+    // +border(1rem, $black, 1px)
     padding: 1rem 0rem 2rem 0rem
     background-color: $tertiary-color
 
@@ -17,15 +18,15 @@
     margin-bottom: 1rem
     +flex-column
     margin: 0rem 2rem
-    background-color: $secondary-color
-    +border(1rem, $black, 1px)
+    background-color: white
+    // +border(1rem, $black, 1px)
     padding: 1rem 0rem
     
   button
     background-color: $tertiary-color
     +border(1rem, $black, 1px)
     color: $secondary-color
-    margin: 0.5rem 3rem;
+    margin: 0.5rem 5rem;
     +primary-font
 
 .game-form-item
@@ -36,6 +37,7 @@
   input
     margin-bottom: 0.5rem
     width: 12rem
+    +border(0rem, black, 1px)
 
   label
     margin-bottom: 0.5rem

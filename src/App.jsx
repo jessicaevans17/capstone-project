@@ -9,7 +9,6 @@ import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
 import Profile from "./components/profile"
 import PrivateRoute from "./components/PrivateRoute"
-import AutoSuggest from "./components/AutoSuggest"
 
 class App extends Component {
   render() {

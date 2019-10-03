@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import Profile from "../images/profilepic.jpg"
+import moment from "moment"
 
 const Game = props => {
   const data = props.location.state.game
@@ -29,11 +30,11 @@ const Game = props => {
             </section>
           </div>
           <p>
-            <strong>Date:</strong>
-            {new Date(data.dateOfPlay).toLocaleString([], options)}
+            <strong>Date: </strong>
+            {moment(data.dateOfPlay).format("MMMM Do YYYY")}
           </p>
           <p>
-            <strong>Time:</strong> {new Date(data.dateOfPlay).toTimeString()}
+            <strong>Time:</strong> {moment(data.dateOfPlay).format("LT")}
           </p>
           <p>
             <strong>Where:</strong> {data.locationName}

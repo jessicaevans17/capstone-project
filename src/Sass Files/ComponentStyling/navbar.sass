@@ -8,6 +8,7 @@ nav
   text-align: center
   background-color: white
   border-bottom: solid $black 1px
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75)
  
   .page-nav 
     +flex-column
@@ -37,7 +38,7 @@ nav
       color: $black
 
     img
-      height: 3rem
+      height: 1rem
       +border(10rem, $tertiary-color ,1.5px)
       margin: 0.5rem 
 
@@ -45,25 +46,33 @@ nav
 
     img
       margin-left: 1.5rem
+      height: 6rem
       
 
   button
-    background-color: $secondary-color
-    +border(0.25rem, $tertiary-color ,1px)
-    height: 1.5rem
-    margin-right: 0.5rem
+    // background-color: $secondary-color
+    // +border(0.25rem, $tertiary-color ,1px)
+    // height: 1.5rem
+    // margin-right: 0.5rem
 
   input 
     margin-bottom: 1rem
     margin-right: 0.5rem
     margint-top: 0.5rem
 
-
 .login
   text-align: center
   text-decoration: none
-  color: $secondary-color
-  background-color: $tertiary-color
+  color: $tertiary-color
+  
   font-size: 1rem
+  padding: 1rem
   +primary-font
   
+@media (min-width: 600px)
+  nav 
+    .logo
+      img
+        margin-left: 1.5rem
+        height: 10rem
+      
