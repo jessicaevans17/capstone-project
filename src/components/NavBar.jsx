@@ -5,7 +5,7 @@ import { useAuth0 } from "../react-auth0-wrapper"
 import DropDown from "./DropDownMenu"
 
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
+  const { user } = useAuth0()
   console.log(user)
   return (
     <>

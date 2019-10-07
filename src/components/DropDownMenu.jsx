@@ -10,9 +10,10 @@ const DropDownMenu = () => {
   const Bars = <FontAwesomeIcon icon={faBars} />
   return (
     <>
-      <div class="dropdown">
-        <button class="dropbtn">{Bars}</button>
-        <div class="dropdown-content">
+      <div className="dropdown">
+        <button className="dropbtn">{Bars}</button>
+        <div className="dropdown-content">
+          <Link to="/browse/games">Browse Games</Link>
           <Link to="/new/game">Create a Game</Link>
 
           {!isAuthenticated && (
@@ -22,10 +23,7 @@ const DropDownMenu = () => {
           )}
           {isAuthenticated && (
             <>
-              <Link to="/profile">
-                {/* <img src={user.picture} alt={user.name} /> */}
-                Profile
-              </Link>
+              <Link to="/profile">Profile</Link>
               <button className="login" onClick={() => logout({})}>
                 Log out
               </button>

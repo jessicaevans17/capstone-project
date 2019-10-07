@@ -1,7 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import Backsplash from "../images/backsplash.jpg"
-import PrivateRoute from "../components/PrivateRoute"
 
 const HomePage = () => {
   return (

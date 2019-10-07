@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import Profile from "../images/profilepic.jpg"
 import moment from "moment"
 import { useAuth0 } from "../react-auth0-wrapper"
 import axios from "axios"
 
 const Game = props => {
-  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
+  const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
   console.log(data)
   const [players, setPlayers] = useState([])
 
-  const AddPlayer = async event => {
+  const AddPlayer = async () => {
     const resp = await axios.post(
       `https://localhost:5001/api/Players/${data.id}`,
       {
@@ -50,11 +48,10 @@ const Game = props => {
             <p>
               <strong>Created By:</strong>
             </p>
-            <section>
-              <Link to="/profile">
-                <img src={Profile} alt="User's Profile Pic" />
-              </Link>
-            </section>
+            <figure>
+              <img src={data.creatorProfilePic} alt="User's Profile" />
+              <figcaption>{data.creator}</figcaption>
+            </figure>
           </div>
           <p>
             <strong>Date: </strong>
@@ -64,8 +61,8 @@ const Game = props => {
             <strong>Time:</strong> {moment(data.dateOfPlay).format("LT")}
           </p>
           <p>
-            <strong>Where:</strong> {data.locationName}
-            {data.address}
+            <strong>Where:</strong> {data.locationName} <br></br>
+            {data.address} <br></br>
             {data.city}
             {data.state}
             {data.zipCode}
@@ -82,26 +79,13 @@ const Game = props => {
                 return (
                   <img
                     key={player.id}
-                    src={player.profileUrl}
-                    alt={`Profile picture of ${player.name}`}
+                    src={player.profileURL}
+                    alt={`Profile of ${player.name}`}
                   />
                 )
               })}
             </section>
           </div>
-          {/* <p>
-            <strong>Game Description:</strong> The women and men of your
-            expedition build the first two settlements. Fortunately, the land is
-            rich in natural resources. You build roads and new settlements that
-            eventually become cities. Will you succeed in gaining supremacy on
-            Catan? Barter trade dominates the scene. Some resources you have in
-            abundance, other resources are scarce. Ore for wool, brick for
-            lumber - you trade according to what is needed for your current
-            building projects. Proceed strategically! If you found your
-            settlements in the right places and skillfully trade your resources,
-            then the odds will be in your favor. But your opponents are smart
-            too.
-          </p> */}
         </div>
         {!isAuthenticated && (
           <button onClick={() => loginWithRedirect({})}>Join the game!</button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react"
 import axios from "axios"
-// import { useAuth0 } from "../react-auth0-wrapper"
+import { useAuth0 } from "../react-auth0-wrapper"
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -54,7 +54,7 @@ const initialState = {
 
 const CreateGame = () => {
   const [state, dispatch] = useReducer(formReducer, initialState)
-  // const { user } = useAuth0()
+  const { user } = useAuth0()
   const {
     gameTitle,
     dateTime,
@@ -67,6 +67,7 @@ const CreateGame = () => {
     maxPlayers,
     isSubmitted
   } = state
+
   const searchGames = async title => {
     console.log("searching games")
     const resp = await axios.get(
@@ -90,8 +91,9 @@ const CreateGame = () => {
       dateOfPlay: dateTime,
       locationName: locationName,
       city: locationCity,
-      state: locationState
-      // creator: user.name
+      state: locationState,
+      creator: user.name,
+      creatorProfilePic: user.picture
     })
     console.log(resp)
     setTimeout(dispatch({ type: "reset" }), 3000)
@@ -101,7 +103,6 @@ const CreateGame = () => {
       <h1>Create a New Game</h1>
       <div className="form-container">
         <form onSubmit={submitData}>
-          {/* <ul>{suggestions.map()}</ul> */}
           <div className="game-form-item">
             <label>What game do you want to play?</label>
             <input
