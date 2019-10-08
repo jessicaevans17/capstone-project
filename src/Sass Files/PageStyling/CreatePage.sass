@@ -22,7 +22,7 @@
     // +border(1rem, $black, 1px)
     padding: 1rem 0rem
     
-  button
+  .submit-button
     background-color: $tertiary-color
     +border(1rem, $black, 1px)
     color: $secondary-color
@@ -42,3 +42,13 @@
   label
     margin-bottom: 0.5rem
   
+.dropdown-list
+  +flex-column
+
+  button
+    border: none
+    width: 25%
+    +primary-font
+    text-align: left
+    border-bottom: solid $black 1px
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);

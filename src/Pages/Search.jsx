@@ -14,26 +14,30 @@ const Search = () => {
     setResults(resp.data.games)
   }
 
-  const handleChange = value => {
-    if (value.length >= 1) {
+  const handleChange = title => {
+    if (title.length) {
       setIsOpen(true)
-      getInfo(value)
+      getInfo(title)
     } else {
       setIsOpen(false)
     }
   }
 
   const handleClick = value => {
+    console.log({ value })
     setChoice(value)
   }
 
   return (
     <form>
       <input
+        type="text"
         placeholder="Search for..."
         onChange={e => {
           handleChange(e.target.value)
+          setChoice(e.target.value)
         }}
+        value={choice}
       />
       {isOpen ? (
         <section className="dropdown-list">
@@ -41,15 +45,20 @@ const Search = () => {
             return (
               <button
                 key={i}
+                className="dropdown-option"
                 type="button"
-                onClick={e => handleClick(e.target.value)}
+                onClick={e => {
+                  handleClick(e.target.value)
+                  setIsOpen(false)
+                }}
                 value={game.name}
+                title={game.name}
+                description={game.description}
               >
                 {game.name}
               </button>
             )
           })}
-          <p>{choice}</p>
         </section>
       ) : (
         <></>

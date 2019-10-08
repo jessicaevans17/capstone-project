@@ -15,7 +15,7 @@ const HomePage = () => {
       >
         <section className="content">
           <h1 className="main-prompt">
-            Have a board game you want to play, but no one to play it with?
+            Want to play a board game, but have no one to play with?
           </h1>
           <Link to="/new/game" className="sign-in-button">
             Start a Game
