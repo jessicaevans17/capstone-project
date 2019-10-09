@@ -2,6 +2,19 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 import { useAuth0 } from "../react-auth0-wrapper"
 import axios from "axios"
+import altPic from "../images/AltGamePic.jpeg"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faClock,
+  faCalendarAlt,
+  faMapMarkedAlt,
+  faDice
+} from "@fortawesome/free-solid-svg-icons"
+
+const clock = <FontAwesomeIcon icon={faClock} />
+const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
+const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
+const dice = <FontAwesomeIcon icon={faDice} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
@@ -45,19 +58,21 @@ const Game = props => {
   return (
     <>
       <main className="game-details">
-        <h1>Game Information</h1>
         <div className="detailed-game-info">
-          <p>
-            <strong>Game:</strong> {data.gameTitle}
-          </p>
-          <img
-            className="boardgame-thumbnail"
-            src={data.gameImageUrl}
-            alt={`Thumbnail of ${data.gameTitle}`}
-          />
+          <h1>{data.gameTitle}</h1>
+          {data.gameImageUrl ? (
+            <img
+              className="boardgame-thumbnail"
+              src={data.gameImageUrl}
+              alt={`Thumbnail of ${data.gameTitle}`}
+            />
+          ) : (
+            <></>
+          )}
+
           <div className="players-attending join-info">
             <p>
-              <strong>Created By:</strong>
+              <strong>Hosted by:</strong>
             </p>
             <figure>
               <img
@@ -69,14 +84,14 @@ const Game = props => {
             </figure>
           </div>
           <p>
-            <strong>Date: </strong>
+            <strong>{calendar} </strong>
             {moment(data.dateOfPlay).format("MMMM Do YYYY")}
           </p>
           <p>
-            <strong>Time:</strong> {moment(data.dateOfPlay).format("LT")}
+            <strong>{clock}</strong> {moment(data.dateOfPlay).format("LT")}
           </p>
           <p>
-            <strong>Where:</strong> {data.locationName} <br></br>
+            <strong>{map}</strong> {data.locationName} <br></br>
             {data.address} <br></br>
             {data.city}
             {data.state}

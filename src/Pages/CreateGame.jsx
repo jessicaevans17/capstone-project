@@ -29,7 +29,8 @@ const formReducer = (state, action) => {
         minPlayers: "",
         maxPlayers: "",
         isSubmitted: false,
-        boardGameData: ""
+        boardGameData: "",
+        choice: ""
       }
     }
 
