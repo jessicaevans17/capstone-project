@@ -9,6 +9,7 @@ import {
   faMapMarkedAlt,
   faCheck
 } from "@fortawesome/free-solid-svg-icons"
+import Countdown from "react-countdown-now"
 
 const clock = <FontAwesomeIcon icon={faClock} />
 const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
@@ -19,6 +20,7 @@ const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
   const [players, setPlayers] = useState([])
+  console.log(new Date(data.dateOfPlay))
 
   const AddPlayer = async () => {
     const resp = await axios.post(
