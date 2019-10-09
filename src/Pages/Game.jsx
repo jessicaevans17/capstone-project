@@ -20,8 +20,8 @@ const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
   const gameTime = new Date(data.dateOfPlay)
+  const deadline = moment(gameTime).subtract(1, "days")
   const [players, setPlayers] = useState([])
-  console.log(new Date(data.dateOfPlay))
 
   const AddPlayer = async () => {
     const resp = await axios.post(
@@ -61,7 +61,11 @@ const Game = props => {
       <main className="game-details">
         <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
-          <Timer expiryTimestamp={gameTime} />
+          <Timer expiryTimestamp={deadline} />
+          <p>
+            All or nothing. This game will only happen if it reaches the number
+            of players needed by {moment(deadline).format("MMMM Do YYYY")}
+          </p>
           {data.gameImageUrl ? (
             <img
               className="boardgame-thumbnail"
@@ -86,8 +90,9 @@ const Game = props => {
           )}
           {isAuthenticated && (
             <div>
+              <p>Want to play?</p>
               <button className="join-button" onClick={AddPlayer}>
-                Join the game!
+                {check}
               </button>
               <button className="leave-button" onClick={DeletePlayer}>
                 Leave game

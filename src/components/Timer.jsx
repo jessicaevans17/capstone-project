@@ -8,12 +8,13 @@ const Timer = ({ expiryTimestamp }) => {
   })
 
   return (
-    <div>
+    <div className="timer">
       <div>
-        <span>{days} Days</span>
+        <h2>Time Left to Join:</h2>
+        <span> {days} Days</span>
         <span> {hours} Hours </span>
-        <span>{minutes} Minutes</span>
-        <span>{seconds} Seconds</span>
+        <span> {minutes} Minutes</span>
+        <span> {seconds} Seconds</span>
       </div>
     </div>
   )
