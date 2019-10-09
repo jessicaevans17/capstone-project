@@ -9,7 +9,7 @@ import {
   faMapMarkedAlt,
   faCheck
 } from "@fortawesome/free-solid-svg-icons"
-import Countdown from "react-countdown-now"
+import Timer from "../components/Timer"
 
 const clock = <FontAwesomeIcon icon={faClock} />
 const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
@@ -19,12 +19,13 @@ const check = <FontAwesomeIcon icon={faCheck} />
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
+  const gameTime = new Date(data.dateOfPlay)
   const [players, setPlayers] = useState([])
   console.log(new Date(data.dateOfPlay))
 
   const AddPlayer = async () => {
     const resp = await axios.post(
-      `https://localhost:5001/api/Players/${data.id}`,
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`,
       {
         userId: user.sub,
         name: user.name,
@@ -39,13 +40,13 @@ const Game = props => {
 
   const DeletePlayer = async () => {
     const resp = await axios.delete(
-      `https://localhost:5001/api/Players/${data.id}/${user.sub}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`
     )
   }
 
   const ShowPlayers = async () => {
     const response = await axios.get(
-      `https://localhost:5001/api/Players/${data.id}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`
     )
     console.log(response.data)
     setPlayers(response.data)
@@ -60,7 +61,7 @@ const Game = props => {
       <main className="game-details">
         <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
-
+          <Timer expiryTimestamp={gameTime} />
           {data.gameImageUrl ? (
             <img
               className="boardgame-thumbnail"

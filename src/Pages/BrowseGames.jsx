@@ -8,7 +8,9 @@ const BrowseGames = () => {
   const [games, setGames] = useState([])
 
   const fetchData = async () => {
-    const resp = await axios.get("https://localhost:5001/api/Games")
+    const resp = await axios.get(
+      "https://game-starter-app.herokuapp.com/api/Games"
+    )
     console.log(resp.data)
     setGames(resp.data)
   }

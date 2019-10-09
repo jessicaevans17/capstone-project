@@ -103,24 +103,27 @@ const CreateGame = props => {
   const submitData = async event => {
     event.preventDefault()
     dispatch({ type: "submit" })
-    const resp = await axios.post("https://localhost:5001/api/Games", {
-      gameTitle: choice,
-      description: description,
-      zipCode: locationZip,
-      address: locationAddress,
-      minPlayers: minPlayers,
-      maxPlayers: maxPlayers,
-      dateOfPlay: dateTime,
-      locationName: locationName,
-      city: locationCity,
-      state: locationState,
-      creator: user.name,
-      creatorProfilePic: user.picture,
-      minPlayTime: minPlayTime,
-      maxPlayTime: maxPlayTime,
-      gameImageUrl: gamePicture,
-      rulesUrl: rulesUrl
-    })
+    const resp = await axios.post(
+      "https://game-starter-app.herokuapp.com/api/Games",
+      {
+        gameTitle: choice,
+        description: description,
+        zipCode: locationZip,
+        address: locationAddress,
+        minPlayers: minPlayers,
+        maxPlayers: maxPlayers,
+        dateOfPlay: dateTime,
+        locationName: locationName,
+        city: locationCity,
+        state: locationState,
+        creator: user.name,
+        creatorProfilePic: user.picture,
+        minPlayTime: minPlayTime,
+        maxPlayTime: maxPlayTime,
+        gameImageUrl: gamePicture,
+        rulesUrl: rulesUrl
+      }
+    )
     console.log(resp)
     setTimeout(dispatch({ type: "reset" }), 3000)
   }
