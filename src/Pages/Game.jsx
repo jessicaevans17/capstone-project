@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 import { useAuth0 } from "../react-auth0-wrapper"
 import axios from "axios"
-import altPic from "../images/AltGamePic.jpeg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faClock,
   faCalendarAlt,
   faMapMarkedAlt,
-  faDice
+  faCheck
 } from "@fortawesome/free-solid-svg-icons"
 
 const clock = <FontAwesomeIcon icon={faClock} />
 const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
 const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
-const dice = <FontAwesomeIcon icon={faDice} />
+const check = <FontAwesomeIcon icon={faCheck} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
-  console.log(data)
   const [players, setPlayers] = useState([])
 
   const AddPlayer = async () => {
@@ -58,8 +56,9 @@ const Game = props => {
   return (
     <>
       <main className="game-details">
-        <div className="detailed-game-info">
+        <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
+
           {data.gameImageUrl ? (
             <img
               className="boardgame-thumbnail"
@@ -69,20 +68,44 @@ const Game = props => {
           ) : (
             <></>
           )}
-
-          <div className="players-attending join-info">
-            <p>
-              <strong>Hosted by:</strong>
-            </p>
-            <figure>
-              <img
-                className="profile-pic"
-                src={data.creatorProfilePic}
-                alt="User's Profile"
-              />
-              <figcaption>{data.creator}</figcaption>
-            </figure>
-          </div>
+        </section>
+        <section className="join-info bottom-border">
+          {!isAuthenticated && (
+            <div>
+              <p>Want to play?</p>
+              <button
+                className="join-button"
+                onClick={() => loginWithRedirect({})}
+              >
+                {check}
+              </button>
+            </div>
+          )}
+          {isAuthenticated && (
+            <div>
+              <button className="join-button" onClick={AddPlayer}>
+                Join the game!
+              </button>
+              <button className="leave-button" onClick={DeletePlayer}>
+                Leave game
+              </button>
+            </div>
+          )}
+        </section>
+        <section className="players-attending bottom-border">
+          <p>
+            <strong>Hosted by:</strong>
+          </p>
+          <figure>
+            <img
+              className="profile-pic"
+              src={data.creatorProfilePic}
+              alt="User's Profile"
+            />
+            <figcaption>{data.creator}</figcaption>
+          </figure>
+        </section>
+        <section>
           <p>
             <strong>{calendar} </strong>
             {moment(data.dateOfPlay).format("MMMM Do YYYY")}
@@ -139,16 +162,7 @@ const Game = props => {
               </p>
             )}
           </div>
-        </div>
-        {!isAuthenticated && (
-          <button onClick={() => loginWithRedirect({})}>Join the game!</button>
-        )}
-        {isAuthenticated && (
-          <>
-            <button onClick={AddPlayer}>Join the game!</button>
-            <button onClick={DeletePlayer}>Leave game</button>
-          </>
-        )}
+        </section>
       </main>
     </>
   )

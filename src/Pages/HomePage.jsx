@@ -21,7 +21,7 @@ const HomePage = () => {
             Start a Game
           </Link>
           <Link to="/browse/games" className="find-a-game-button">
-            Browse Games Near You
+            Browse Games
           </Link>
         </section>
       </main>
