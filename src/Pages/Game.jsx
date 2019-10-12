@@ -203,7 +203,7 @@ const Game = props => {
               })}
             </section>
           </div>
-          <div>
+          <div className="description-rules">
             {data.description ? (
               <p>
                 <strong>Description: </strong> {data.description}

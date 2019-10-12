@@ -1,0 +1,77 @@
+@import "variables.scss";
+@import "mixins.scss";
+
+.create-game-main {
+  margin: 0rem 1rem;
+  @include flex-column;
+  justify-content: center;
+
+  h1 {
+    margin: 1rem 0rem;
+    text-align: center;
+  }
+  form {
+    @include flex-column;
+    margin: 0rem 1rem;
+    background-color: white;
+    padding: 1rem 0rem;
+  }
+  .submit-button {
+    background-color: $tertiary-color;
+    @include border(1rem, $black, 1px);
+    color: $secondary-color;
+    margin: 0.5rem 5rem;
+    @include primary-font;
+  }
+}
+.game-form-item {
+  @include flex-column;
+  align-items: flex-start;
+  padding-left: 0.5rem;
+
+  input {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem;
+    width: 13rem;
+    @include border(0rem, black, 1px);
+  }
+  label {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.dropdown-list {
+  @include flex-column;
+
+  button {
+    border: none;
+    width: 25%;
+    @include primary-font;
+    text-align: left;
+    border-bottom: solid $black 1px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+}
+.residence-type {
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 3rem;
+  }
+}
+.form-container {
+  @include flex-column;
+  align-items: center;
+}
+.description-rules {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.sign-up-pic {
+  display: none;
+
+  @include md {
+    display: contents;
+  }
+}

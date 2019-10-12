@@ -1,0 +1,10 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+.game-info {
+  border-bottom: solid $black 1px;
+  background-color: white;
+  color: $tertiary-color;
+  padding: 1rem;
+  width: 15rem;
+}

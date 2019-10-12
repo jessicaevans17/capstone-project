@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react"
 import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
+import signUpPic from "../images/signuppic.jpg"
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -141,7 +142,7 @@ const CreateGame = props => {
     <main className="create-game-main">
       <h1>Start your game</h1>
       <div className="form-container">
-        <form onSubmit={submitData}>
+        <form className="game-form" onSubmit={submitData}>
           <div className="game-form-item">
             <label>What game do you want to play?</label>
             <input
@@ -333,6 +334,11 @@ const CreateGame = props => {
             <></>
           )}
         </form>
+        <img
+          className="sign-up-pic"
+          src={signUpPic}
+          alt="Dragon playing piece on a board game."
+        />
       </div>
     </main>
   )

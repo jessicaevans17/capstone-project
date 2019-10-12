@@ -1,0 +1,40 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+.profile-page-main {
+  @include flex-column;
+  align-items: center;
+  color: $tertiary-color;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 0rem;
+}
+strong {
+  font-size: 1.1rem;
+}
+
+.user-info {
+  @include flex-column;
+  @include border(0rem, $black, 1px);
+  color: $tertiary-color;
+  margin-top: 1rem;
+  padding: 1rem 1rem;
+}
+
+img {
+  height: 10rem;
+  // @include border(1rem, $tertiary-color, 3px);
+  align-self: center;
+}
+a {
+  text-decoration: none;
+  color: $tertiary-color;
+}
+
+.upcoming-games {
+  h1 {
+    text-align: center;
+    margin: 0.5rem 1rem;
+  }
+}

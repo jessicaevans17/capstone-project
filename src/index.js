@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import "./Sass Files/index.sass"
+import "./Sass Files/index.scss"
 import App from "./App.jsx"
 import * as serviceWorker from "./serviceWorker"
 import { Auth0Provider } from "./react-auth0-wrapper"
