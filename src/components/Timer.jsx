@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useTimer } from "react-timer-hook"
 
 const Timer = ({ expiryTimestamp }) => {
-  const { seconds, minutes, hours, days, start } = useTimer({
+  const { seconds, minutes, hours, days } = useTimer({
     expiryTimestamp,
     onExpire: () => console.warn("onExpire called")
   })

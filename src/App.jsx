@@ -8,7 +8,7 @@ import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
 import Profile from "./components/profile"
 import PrivateRoute from "./components/PrivateRoute"
-// import User from "./Pages/User"
+import User from "./Pages/User"
 
 class App extends Component {
   render() {
@@ -22,7 +22,7 @@ class App extends Component {
             <PrivateRoute path="/profile" component={Profile} />
             <Route path="/new/game" component={CreateGame} />
             <Route exact path="/:id" component={Game}></Route>
-            {/* <Route exact path="/user/profile/:id" component={User}></Route> */}
+            <Route exact path="/user/profile/:id" component={User}></Route>
           </Switch>
           <Footer />
         </Router>

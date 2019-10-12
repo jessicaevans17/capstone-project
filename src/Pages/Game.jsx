@@ -7,14 +7,17 @@ import {
   faClock,
   faCalendarAlt,
   faMapMarkedAlt,
-  faCheck
+  faCheck,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons"
 import Timer from "../components/Timer"
+import { Link } from "react-router-dom"
 
 const clock = <FontAwesomeIcon icon={faClock} />
 const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
 const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
 const check = <FontAwesomeIcon icon={faCheck} />
+const times = <FontAwesomeIcon icon={faTimes} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
@@ -22,26 +25,34 @@ const Game = props => {
   const gameTime = new Date(data.dateOfPlay)
   const deadline = moment(gameTime).subtract(1, "days")
   const [players, setPlayers] = useState([])
+  const maxPlayers = data.maxPlayers
+  const maxAllowed = maxPlayers - players.length
 
   const AddPlayer = async () => {
-    const resp = await axios.post(
-      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`,
-      {
-        userId: user.sub,
-        name: user.name,
-        email: user.email,
-        profileUrl: user.picture,
-        gameId: data.id
-      }
-    )
-
-    console.log(resp.data)
+    try {
+      const resp = await axios.post(
+        `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
+        {
+          userId: user.sub,
+          name: user.name,
+          email: user.email,
+          profileUrl: user.picture,
+          gameId: data.id
+        }
+      )
+      ShowPlayers()
+      console.log(resp)
+    } catch {
+      console.log("You're already going!")
+    }
   }
 
   const DeletePlayer = async () => {
     const resp = await axios.delete(
       `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`
     )
+    ShowPlayers()
+    console.log(resp)
   }
 
   const ShowPlayers = async () => {
@@ -61,11 +72,6 @@ const Game = props => {
       <main className="game-details">
         <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
-          <Timer expiryTimestamp={deadline} />
-          <p>
-            All or nothing. This game will only happen if it reaches the number
-            of players needed by {moment(deadline).format("MMMM Do YYYY")}
-          </p>
           {data.gameImageUrl ? (
             <img
               className="boardgame-thumbnail"
@@ -77,28 +83,47 @@ const Game = props => {
           )}
         </section>
         <section className="join-info bottom-border">
-          {!isAuthenticated && (
-            <div>
+          <div className="join-info-top">
+            <div className="join-intro">
               <p>Want to play?</p>
-              <button
-                className="join-button"
-                onClick={() => loginWithRedirect({})}
-              >
-                {check}
-              </button>
+              <p>Spots Left: {maxAllowed}</p>
             </div>
-          )}
-          {isAuthenticated && (
-            <div>
-              <p>Want to play?</p>
-              <button className="join-button" onClick={AddPlayer}>
-                {check}
-              </button>
-              <button className="leave-button" onClick={DeletePlayer}>
-                Leave game
-              </button>
-            </div>
-          )}
+            {!isAuthenticated && (
+              <div className="attend-buttons">
+                <button
+                  className="join-button"
+                  onClick={() => loginWithRedirect({})}
+                >
+                  {check}
+                </button>
+                <button
+                  className="leave-button"
+                  onClick={() => loginWithRedirect({})}
+                >
+                  {times}
+                </button>
+              </div>
+            )}
+            {isAuthenticated && (
+              <div className="attend-buttons">
+                <p>Want to play?</p>
+                <button className="join-button" onClick={AddPlayer}>
+                  {check}
+                </button>
+                <button className="leave-button" onClick={DeletePlayer}>
+                  {times}
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="timer-info">
+            <Timer expiryTimestamp={deadline} />
+            <p>
+              All or nothing. This game will only happen if it reaches the
+              number of players needed by{" "}
+              {moment(deadline).format("MMMM Do YYYY")}
+            </p>
+          </div>
         </section>
         <section className="players-attending bottom-border">
           <p>
@@ -121,29 +146,52 @@ const Game = props => {
           <p>
             <strong>{clock}</strong> {moment(data.dateOfPlay).format("LT")}
           </p>
+          {data.privateResidence ? (
+            <p>
+              <strong>{map}</strong> {data.locationName} <br></br>
+              {data.city}
+              {data.state}
+              {data.zipCode}
+              <br></br>
+              This game is happening at a private residence. Address will only
+              be revealed once you have joined the game.
+            </p>
+          ) : (
+            <p>
+              <strong>{map}</strong> {data.locationName} <br></br>
+              {data.address} <br></br>
+              {data.city}
+              {data.state}
+              {data.zipCode}
+            </p>
+          )}
+
           <p>
-            <strong>{map}</strong> {data.locationName} <br></br>
-            {data.address} <br></br>
-            {data.city}
-            {data.state}
-            {data.zipCode}
+            <strong> Minimum Number of Players Needed:</strong>{" "}
+            {data.minPlayers}
           </p>
-          <p>
-            <strong> Number of Players Needed:</strong> {data.minPlayers}
-          </p>
+
           <div className="players-attending">
             <p>
               <strong>Players Attending:</strong> {players.length}
             </p>
             <section>
-              {players.map(player => {
+              {players.map((player, i) => {
                 return (
-                  <img
-                    className="profile-pic"
-                    key={player.id}
-                    src={player.profileURL}
-                    alt={`Profile of ${player.name}`}
-                  />
+                  <Link
+                    key={i}
+                    to={{
+                      pathname: `/user/profile/${player.id}`,
+                      state: { player }
+                    }}
+                  >
+                    <img
+                      className="profile-pic"
+                      key={player.id}
+                      src={player.profileURL}
+                      alt={`Profile of ${player.name}`}
+                    />
+                  </Link>
                 )
               })}
             </section>
@@ -151,22 +199,22 @@ const Game = props => {
           <div>
             {data.description ? (
               <p>
-                <strong>Game Description: </strong> {data.description}
+                <strong>Description: </strong> {data.description}
               </p>
             ) : (
               <p>
-                <strong>Game Description: </strong> No description available...
+                <strong>Description: </strong> No description available...
               </p>
             )}
 
             {data.rulesUrl ? (
               <p>
-                <strong>Game Rules: </strong>{" "}
+                <strong>Rules: </strong>{" "}
                 <a href={data.rulesUrl}>{data.rulesUrl}</a>
               </p>
             ) : (
               <p>
-                <strong>Game Rules: </strong> No rules available...
+                <strong>Rules: </strong> No rules available...
               </p>
             )}
           </div>

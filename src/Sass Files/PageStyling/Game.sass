@@ -23,19 +23,36 @@
 .boardgame-thumbnail
   height: 8rem
 
+
 .join-button
-  font-size: 2rem
+  font-size: 1.5rem
   color: $tertiary-color
-  +border(10rem, $black, 2px)
-  background-color: white
+  +border(10rem, $black, 1px)
+  background-color: $grayish-white
+  
+  
  
 .leave-button
-  font-size: 2rem
+  font-size: 1.5rem
   color: $red
-  +border(10rem, $black, 2px)
-  background-color: white
+  +border(10rem, $black, 1px)
+  background-color: $grayish-white
+  margin-left: 1rem
+ 
+ 
+  
     
 .bottom-border
   border-bottom: solid $black 1px
   padding-bottom: 1rem
 
+.join-info-top
+  +flex-row
+  align-items: center
+  justify-content: space-between
+
+.main-game-info
+  +flex-row
+  justify-content: space-between
+  align-items: center
+  padding-top: 1rem

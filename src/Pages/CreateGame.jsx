@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react"
+import React, { useState, useReducer } from "react"
 import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
 
@@ -55,7 +55,7 @@ const initialState = {
 
 const CreateGame = props => {
   const [state, dispatch] = useReducer(formReducer, initialState)
-  const { user } = useAuth0()
+  const { user, getIdTokenClaims } = useAuth0()
   const {
     dateTime,
     locationName,
@@ -76,6 +76,7 @@ const CreateGame = props => {
   const [minPlayTime, setMinPlayTime] = useState("")
   const [maxPlayTime, setMaxPlayTime] = useState("")
   const [rulesUrl, setRulesUrl] = useState("")
+  const [privateResidence, setPrivateResidence] = useState(true)
 
   const getInfo = async title => {
     const resp = await axios.get(
@@ -103,6 +104,9 @@ const CreateGame = props => {
   const submitData = async event => {
     event.preventDefault()
     dispatch({ type: "submit" })
+    const userData = await getIdTokenClaims()
+    const token = userData.__raw
+    console.log({ token })
     const resp = await axios.post(
       "https://game-starter-app.herokuapp.com/api/Games",
       {
@@ -121,7 +125,13 @@ const CreateGame = props => {
         minPlayTime: minPlayTime,
         maxPlayTime: maxPlayTime,
         gameImageUrl: gamePicture,
-        rulesUrl: rulesUrl
+        rulesUrl: rulesUrl,
+        privateResidence: privateResidence
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        }
       }
     )
     console.log(resp)
@@ -153,13 +163,13 @@ const CreateGame = props => {
                       type="button"
                       onClick={e => {
                         handleClick(game.name)
-                        setDescription(game.description)
+                        setDescription(game.description_preview)
                         setGamePicture(game.thumb_url)
                         setIsOpen(false)
                         setMinPlayTime(game.min_url)
                         setMaxPlayTime(game.max_url)
                         setRulesUrl(game.rules_url)
-                        console.log(game.description)
+                        console.log(game.description_preview)
                       }}
                     >
                       {game.name}
@@ -199,6 +209,31 @@ const CreateGame = props => {
               value={locationName}
               placeholder="Name of Place (i.e. My House, 3 Daughters)"
             />
+            <p>Is this a private residence?</p>
+            <div className="residence-type">
+              <div>
+                <input
+                  type="radio"
+                  onClick={() => {
+                    setPrivateResidence(true)
+                  }}
+                  name="residence-type"
+                  value="yes"
+                />
+                <label htmlFor="yes">Yes</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  onClick={() => {
+                    setPrivateResidence(false)
+                  }}
+                  name="residence-type"
+                  value="no"
+                />
+                <label htmlFor="yes">No</label>
+              </div>
+            </div>
             <input
               type="text"
               onChange={e =>
