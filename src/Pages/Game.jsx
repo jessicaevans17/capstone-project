@@ -8,7 +8,8 @@ import {
   faCalendarAlt,
   faMapMarkedAlt,
   faCheck,
-  faTimes
+  faTimes,
+  faUserAlt
 } from "@fortawesome/free-solid-svg-icons"
 import Timer from "../components/Timer"
 import { Link } from "react-router-dom"
@@ -18,6 +19,7 @@ const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
 const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
 const check = <FontAwesomeIcon icon={faCheck} />
 const times = <FontAwesomeIcon icon={faTimes} />
+const userIcon = <FontAwesomeIcon icon={faUserAlt} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
@@ -27,11 +29,12 @@ const Game = props => {
   const [players, setPlayers] = useState([])
   const maxPlayers = data.maxPlayers
   const maxAllowed = maxPlayers - players.length
+  const neededPlayers = data.minPlayers - players.length
 
   const AddPlayer = async () => {
     try {
       const resp = await axios.post(
-        `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
+        `https://localhost:5001/api/Players/${data.id}/${user.sub}`,
         {
           userId: user.sub,
           name: user.name,
@@ -49,7 +52,7 @@ const Game = props => {
 
   const DeletePlayer = async () => {
     const resp = await axios.delete(
-      `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`
+      `https://localhost:5001/api/Players/${data.id}/${user.sub}`
     )
     ShowPlayers()
     console.log(resp)
@@ -57,7 +60,7 @@ const Game = props => {
 
   const ShowPlayers = async () => {
     const response = await axios.get(
-      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`
+      `https://localhost:5001/api/Players/${data.id}`
     )
     console.log(response.data)
     setPlayers(response.data)
@@ -81,12 +84,14 @@ const Game = props => {
           ) : (
             <></>
           )}
+          <section className="game-and-host"></section>
         </section>
         <section className="join-info bottom-border">
           <div className="join-info-top">
             <div className="join-intro">
-              <p>Want to play?</p>
-              <p>Spots Left: {maxAllowed}</p>
+              {/* <p className="bold">Want to play?</p> */}
+              <p>Spots left: {maxAllowed}</p>
+              <p>Players needed: {neededPlayers}</p>
             </div>
             {!isAuthenticated && (
               <div className="attend-buttons">
@@ -106,7 +111,6 @@ const Game = props => {
             )}
             {isAuthenticated && (
               <div className="attend-buttons">
-                <p>Want to play?</p>
                 <button className="join-button" onClick={AddPlayer}>
                   {check}
                 </button>
@@ -116,7 +120,7 @@ const Game = props => {
               </div>
             )}
           </div>
-          <div className="timer-info">
+          <div className="timer-info bottom-border">
             <Timer expiryTimestamp={deadline} />
             <p>
               All or nothing. This game will only happen if it reaches the
@@ -124,54 +128,57 @@ const Game = props => {
               {moment(deadline).format("MMMM Do YYYY")}
             </p>
           </div>
+          <div className="game-logistics">
+            <div className="icon-details">
+              <p>
+                <strong>{calendar} </strong>
+              </p>
+              <p>{moment(data.dateOfPlay).format("MMMM Do YYYY")}</p>
+            </div>
+            <div className="icon-details">
+              <p>
+                <strong>{clock}</strong>{" "}
+              </p>
+              <p>{moment(data.dateOfPlay).format("LT")}</p>
+            </div>
+
+            {data.privateResidence ? (
+              <div className="icon-details">
+                <p>
+                  <strong>{map}</strong>
+                </p>
+                <p>
+                  {data.locationName} <br></br>
+                  {`${data.city}, ${data.state} ${data.zipCode}`}
+                  <br></br>
+                  This game is happening at a private residence. Address will
+                  only be revealed once you have joined the game.
+                </p>
+              </div>
+            ) : (
+              <div className="icon-details">
+                <p>
+                  <strong>{map}</strong>
+                </p>
+                <p>
+                  {data.locationName} <br></br>
+                  {data.address}
+                  <br></br>
+                  {`${data.city}, ${data.state} ${data.zipCode}`}
+                </p>
+              </div>
+            )}
+            <div className="icon-details">
+              <p>
+                <strong>{userIcon}</strong>
+              </p>
+              <p>Hosted by {data.creator}</p>
+            </div>
+          </div>
         </section>
-        <section className="players-attending bottom-border">
-          <p>
-            <strong>Hosted by:</strong>
-          </p>
-          <figure>
-            <img
-              className="profile-pic"
-              src={data.creatorProfilePic}
-              alt="User's Profile"
-            />
-            <figcaption>{data.creator}</figcaption>
-          </figure>
-        </section>
+
         <section>
-          <p>
-            <strong>{calendar} </strong>
-            {moment(data.dateOfPlay).format("MMMM Do YYYY")}
-          </p>
-          <p>
-            <strong>{clock}</strong> {moment(data.dateOfPlay).format("LT")}
-          </p>
-          {data.privateResidence ? (
-            <p>
-              <strong>{map}</strong> {data.locationName} <br></br>
-              {data.city}
-              {data.state}
-              {data.zipCode}
-              <br></br>
-              This game is happening at a private residence. Address will only
-              be revealed once you have joined the game.
-            </p>
-          ) : (
-            <p>
-              <strong>{map}</strong> {data.locationName} <br></br>
-              {data.address} <br></br>
-              {data.city}
-              {data.state}
-              {data.zipCode}
-            </p>
-          )}
-
-          <p>
-            <strong> Minimum Number of Players Needed:</strong>{" "}
-            {data.minPlayers}
-          </p>
-
-          <div className="players-attending">
+          <div className="players-attending bottom-border">
             <p>
               <strong>Players Attending:</strong> {players.length}
             </p>

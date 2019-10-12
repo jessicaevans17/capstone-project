@@ -108,7 +108,7 @@ const CreateGame = props => {
     const token = userData.__raw
     console.log({ token })
     const resp = await axios.post(
-      "https://game-starter-app.herokuapp.com/api/Games",
+      "https://localhost:5001/api/Games",
       {
         gameTitle: choice,
         description: description,
@@ -139,7 +139,7 @@ const CreateGame = props => {
   }
   return (
     <main className="create-game-main">
-      <h1>Create a New Game</h1>
+      <h1>Start your game</h1>
       <div className="form-container">
         <form onSubmit={submitData}>
           <div className="game-form-item">
@@ -284,7 +284,9 @@ const CreateGame = props => {
             />
           </div>
           <div className="game-form-item">
-            <label>Minimum number of players needed? </label>
+            <label>
+              Minimum number of players needed? (Including yourself)
+            </label>
             <input
               type="number"
               onChange={e =>
@@ -299,7 +301,9 @@ const CreateGame = props => {
             />
           </div>
           <div className="game-form-item">
-            <label>Maximum number of players allowed? </label>
+            <label>
+              Maximum number of players allowed? (Including yourself){" "}
+            </label>
             <input
               type="number"
               onChange={e =>

@@ -9,7 +9,7 @@ const User = props => {
   console.log(data)
   const getUpcomingGames = async () => {
     const resp = await axios.get(
-      `https://game-starter-app.herokuapp.com/api/Players/games/${data.userId}/upcoming`
+      `https://localhost:5001/api/Players/games/${data.userId}/upcoming`
     )
 
     console.log(resp.data)
@@ -22,9 +22,12 @@ const User = props => {
 
   return (
     <>
-      <h1>Upcoming Games</h1>
-      <section>
-        <h2>Games:</h2>
+      <header className="user-header">
+        <h1>{data.name}</h1>
+        <img src={data.profileURL} alt="Profile" />
+        <h2>Upcoming games:</h2>
+      </header>
+      <main className="browse-games-main">
         {upcomingGames.map((g, i) => {
           return (
             <GameInfo
@@ -38,7 +41,7 @@ const User = props => {
             />
           )
         })}
-      </section>
+      </main>
     </>
   )
 }

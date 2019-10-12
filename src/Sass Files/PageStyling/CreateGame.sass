@@ -3,23 +3,19 @@
 
 .create-game-main
   margin: 0rem 1rem 
+  +flex-column
+  justify-content: center
   
 
   h1  
     margin: 1rem 0rem
-
-  .form-container
-    // +border(1rem, $black, 1px)
-    padding: 1rem 0rem 2rem 0rem
-    background-color: $tertiary-color
-
+    text-align: center
 
   form 
-    margin-bottom: 1rem
     +flex-column
-    margin: 0rem 2rem
+    margin: 0rem 1rem
     background-color: white
-    // +border(1rem, $black, 1px)
+    
     padding: 1rem 0rem
     
   .submit-button
@@ -36,7 +32,8 @@
 
   input
     margin-bottom: 0.5rem
-    width: 12rem
+    padding: 0.25rem
+    width: 13rem
     +border(0rem, black, 1px)
 
   label

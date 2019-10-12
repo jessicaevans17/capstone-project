@@ -25,23 +25,40 @@
 
 
 .join-button
-  font-size: 1.5rem
-  color: $tertiary-color
+  font-size: 1rem
+  color: white
   +border(10rem, $black, 1px)
-  background-color: $grayish-white
-  
-  
+  background-color: $tertiary-color
+  padding: 0.5rem 0.65rem
  
+  
 .leave-button
-  font-size: 1.5rem
-  color: $red
+  font-size: 1rem
+  color: white
   +border(10rem, $black, 1px)
-  background-color: $grayish-white
+  background-color: $tertiary-color
   margin-left: 1rem
- 
- 
+  padding: 0.5rem 0.75rem
   
+
+.join-intro
+  p 
+    line-height: 1
+
+
+.timer-info
+  h2 
+    font-size: 1rem
+ 
+ 
+.icon-details
+  +flex-row
+  align-items: baseline
+
+  p 
+    padding-right: 0.5rem
     
+
 .bottom-border
   border-bottom: solid $black 1px
   padding-bottom: 1rem
@@ -56,3 +73,8 @@
   justify-content: space-between
   align-items: center
   padding-top: 1rem
+
+
+.bold 
+  font-weight: bold
+  font-size: 1.25rem

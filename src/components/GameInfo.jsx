@@ -6,8 +6,7 @@ const GameInfo = props => {
       <div className="game-info">
         <h2>{props.title}</h2>
         <p>
-          <strong>Location:</strong> {props.city}
-          {props.state}
+          <strong>Location:</strong> {props.city}, {props.state}
           {props.zipCode}
         </p>
         <p>
