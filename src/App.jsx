@@ -6,8 +6,8 @@ import BrowseGames from "./Pages/BrowseGames"
 import Footer from "./components/Footer"
 import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
-import Profile from "./components/profile"
-import PrivateRoute from "./components/PrivateRoute"
+import Profile from "./components/Profile"
+import PrivateRoute from "./components/PrivateRoute.jsx"
 import User from "./Pages/User"
 
 class App extends Component {
@@ -19,12 +19,12 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomePage}></Route>
             <Route exact path="/browse/games" component={BrowseGames}></Route>
-            <PrivateRoute path="/profile" component={Profile} />
+            <Route path="/profile" component={Profile} />
             <Route path="/new/game" component={CreateGame} />
             <Route exact path="/:id" component={Game}></Route>
             <Route exact path="/user/profile/:id" component={User}></Route>
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </Router>
       </>
     )

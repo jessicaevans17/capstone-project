@@ -1,13 +1,23 @@
 @import "mixins.scss";
 @import "variables.scss";
 
-.user-header {
-  padding-left: 2rem;
+.user-page-main {
+  @include flex-column;
+  align-items: center;
+  .user-info {
+    background-color: $tertiary-color;
+    width: 100%;
+    text-align: center;
+    color: $secondary-color;
+    padding: 1rem 0rem;
 
-  h1 {
-    font-size: 1.5rem;
-  }
-  img {
-    height: 5rem;
+    h1 {
+      font-size: 1.5rem;
+      margin: 0rem;
+    }
+    img {
+      height: 5rem;
+      @include border(9rem, $secondary-color, 1px);
+    }
   }
 }

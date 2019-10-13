@@ -14,7 +14,7 @@ const DropDownMenu = () => {
         <button className="dropbtn">{Bars}</button>
         <div className="dropdown-content">
           <Link to="/browse/games">Browse Games</Link>
-          <Link to="/new/game">Create a Game</Link>
+          <Link to="/new/game">Start a Game</Link>
 
           {!isAuthenticated && (
             <button className="login" onClick={() => loginWithRedirect({})}>

@@ -28,6 +28,7 @@
   @include flex-column;
   align-items: flex-start;
   padding-left: 0.5rem;
+  position: relative;
 
   input {
     margin-bottom: 0.5rem;
@@ -42,14 +43,19 @@
 
 .dropdown-list {
   @include flex-column;
+  position: absolute;
+  margin-top: 3.5rem;
 
   button {
     border: none;
-    width: 25%;
+    width: 100%;
     @include primary-font;
     text-align: left;
     border-bottom: solid $black 1px;
     box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    position: relative;
+    z-index: 1;
+    right: 0;
   }
 }
 .residence-type {
@@ -63,15 +69,23 @@
 .form-container {
   @include flex-column;
   align-items: center;
+
+  @include md {
+    @include flex-row;
+    justify-content: center;
+  }
+
+  .sign-up-pic {
+    visibility: hidden;
+    @include md {
+      visibility: visible;
+      height: 20rem;
+      align-self: flex-start;
+      @include border(1rem, $black, 1px);
+    }
+  }
 }
 .description-rules {
   overflow-wrap: break-word;
   word-wrap: break-word;
-}
-.sign-up-pic {
-  display: none;
-
-  @include md {
-    display: contents;
-  }
 }

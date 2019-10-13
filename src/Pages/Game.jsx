@@ -40,7 +40,9 @@ const Game = props => {
           name: user.name,
           email: user.email,
           profileUrl: user.picture,
-          gameId: data.id
+          gameId: data.id,
+          firstName: user.given_name,
+          lastName: user.family_name
         }
       )
       ShowPlayers()

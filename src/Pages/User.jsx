@@ -22,25 +22,27 @@ const User = props => {
 
   return (
     <>
-      <header className="user-header">
-        <h1>{data.name}</h1>
-        <img src={data.profileURL} alt="Profile" />
-        <h2>Upcoming games:</h2>
-      </header>
-      <main className="browse-games-main">
-        {upcomingGames.map((g, i) => {
-          return (
-            <GameInfo
-              key={g.id}
-              title={g.game.gameTitle}
-              city={g.game.city}
-              state={g.game.state}
-              zipCode={g.game.zipCode}
-              date={moment(g.game.dateOfPlay).format("MMMM Do YYYY")}
-              time={moment(g.game.dateOfPlay).format("LT")}
-            />
-          )
-        })}
+      <main className="user-page-main">
+        <section className="user-info">
+          <img src={data.profileURL} alt="Profile" />
+          <h1>{data.name}</h1>
+        </section>
+        <section className="upcoming-games">
+          <h2>{`${data.firstName}'s upcoming games:`}</h2>
+          {upcomingGames.map((g, i) => {
+            return (
+              <GameInfo
+                key={g.id}
+                title={g.game.gameTitle}
+                city={g.game.city}
+                state={g.game.state}
+                zipCode={g.game.zipCode}
+                date={moment(g.game.dateOfPlay).format("MMMM Do YYYY")}
+                time={moment(g.game.dateOfPlay).format("LT")}
+              />
+            )
+          })}
+        </section>
       </main>
     </>
   )

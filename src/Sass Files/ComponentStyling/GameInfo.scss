@@ -2,9 +2,13 @@
 @import "variables.scss";
 
 .game-info {
-  border-bottom: solid $black 1px;
-  background-color: white;
-  color: $tertiary-color;
-  padding: 1rem;
+  @include border(1rem, $secondary-color, 1px);
+  background-color: $tertiary-color;
+  color: $secondary-color;
+  padding: 0.5rem 1rem;
   width: 15rem;
+
+  h2 {
+    font-size: 1.25rem;
+  }
 }
