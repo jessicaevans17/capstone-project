@@ -4,9 +4,10 @@ import { useTimer } from "react-timer-hook"
 const Timer = ({ expiryTimestamp }) => {
   const { seconds, minutes, hours, days } = useTimer({
     expiryTimestamp,
-    onExpire: () => console.warn("onExpire called")
+    onExpire: () => {
+      console.log("expired!")
+    }
   })
-
   return (
     <div className="timer">
       <div>

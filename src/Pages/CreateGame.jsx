@@ -109,7 +109,7 @@ const CreateGame = props => {
     const token = userData.__raw
     console.log({ token })
     const resp = await axios.post(
-      "https://localhost:5001/api/Games",
+      "https://game-starter-app.herokuapp.com/api/Games",
       {
         gameTitle: choice,
         description: description,

@@ -16,6 +16,5 @@
     color: $tertiary-color;
   }
   .browse-games-container {
-    @include border(0rem, $black, 1px);
   }
 }

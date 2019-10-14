@@ -30,31 +30,36 @@ const Game = props => {
   const maxPlayers = data.maxPlayers
   const maxAllowed = maxPlayers - players.length
   const neededPlayers = data.minPlayers - players.length
+  const [isExpired, setIsExpired] = useState(false)
 
   const AddPlayer = async () => {
-    try {
-      const resp = await axios.post(
-        `https://localhost:5001/api/Players/${data.id}/${user.sub}`,
-        {
-          userId: user.sub,
-          name: user.name,
-          email: user.email,
-          profileUrl: user.picture,
-          gameId: data.id,
-          firstName: user.given_name,
-          lastName: user.family_name
-        }
-      )
-      ShowPlayers()
-      console.log(resp)
-    } catch {
-      console.log("You're already going!")
+    if (players.length === neededPlayers) {
+      console.log("at capacity!")
+    } else {
+      try {
+        const resp = await axios.post(
+          `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
+          {
+            userId: user.sub,
+            name: user.name,
+            email: user.email,
+            profileUrl: user.picture,
+            gameId: data.id,
+            firstName: user.given_name,
+            lastName: user.family_name
+          }
+        )
+        ShowPlayers()
+        console.log(resp)
+      } catch {
+        console.log("You're already going!")
+      }
     }
   }
 
   const DeletePlayer = async () => {
     const resp = await axios.delete(
-      `https://localhost:5001/api/Players/${data.id}/${user.sub}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`
     )
     ShowPlayers()
     console.log(resp)
@@ -62,7 +67,7 @@ const Game = props => {
 
   const ShowPlayers = async () => {
     const response = await axios.get(
-      `https://localhost:5001/api/Players/${data.id}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`
     )
     console.log(response.data)
     setPlayers(response.data)
@@ -153,6 +158,7 @@ const Game = props => {
                   {data.locationName} <br></br>
                   {`${data.city}, ${data.state} ${data.zipCode}`}
                   <br></br>
+                  <br />
                   This game is happening at a private residence. Address will
                   only be revealed once you have joined the game.
                 </p>

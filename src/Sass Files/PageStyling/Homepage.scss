@@ -27,17 +27,4 @@ body {
     font-size: 2rem;
     text-shadow: 2px 2px 2px white;
   }
-  a {
-    @include border(2rem, $black, 1.5px);
-    margin-bottom: 2rem;
-    padding: 1rem;
-    text-align: center;
-    text-decoration: none;
-    color: $secondary-color;
-    background-color: $tertiary-color;
-    opacity: 0.9;
-    font-size: 1.25rem;
-    width: 15rem;
-    line-height: 1.5;
-  }
 }

@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react"
 import { useAuth0 } from "../react-auth0-wrapper"
-import ProfilePic from "../images/profilepic.jpg"
 import axios from "axios"
 import GameInfo from "./GameInfo"
 import moment from "moment"
-import { Link } from "react-router-dom"
-const Profile = () => {
-  const { loading, user } = useAuth0()
+import NavButtons from "./NavButtons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHandPointDown } from "@fortawesome/free-solid-svg-icons"
 
-  // if (loading || !user) {
-  //   return <div>Loading...</div>
-  // }
+const HandPointDown = <FontAwesomeIcon icon={faHandPointDown} />
+
+const Profile = () => {
+  const { user } = useAuth0()
+
   const [upComingGames, setUpComingGames] = useState([])
   const findUpcomingGames = async () => {
     const resp = await axios.get(
-      `https://localhost:5001/api/Players/games/${user.sub}/upcoming`
+      `https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`
     )
 
     console.log(resp.data)
@@ -34,9 +35,12 @@ const Profile = () => {
         </section>
         <section className="upcoming-games">
           <h2>Upcoming games</h2>
-
           {upComingGames.length === 0 ? (
-            <h3>You aren't signed up for any games yet!</h3>
+            <section className="upcoming-games">
+              <h3>Oh no! You aren't signed up for any games yet!</h3>
+              <div className="hand-point-down">{HandPointDown}</div>
+              <NavButtons />
+            </section>
           ) : (
             <></>
           )}
