@@ -122,6 +122,7 @@ const CreateGame = props => {
         city: locationCity,
         state: locationState,
         creator: user.name,
+        creatorId: user.sub,
         creatorProfilePic: user.picture,
         minPlayTime: minPlayTime,
         maxPlayTime: maxPlayTime,
@@ -153,6 +154,7 @@ const CreateGame = props => {
                 setChoice(e.target.value)
               }}
               value={choice}
+              required
             />
             {isOpen ? (
               <section className="dropdown-list">
@@ -194,6 +196,7 @@ const CreateGame = props => {
                 })
               }
               value={dateTime}
+              required
             />
           </div>
           <div className="game-form-item">
@@ -246,6 +249,7 @@ const CreateGame = props => {
               }
               value={locationAddress}
               placeholder="Address"
+              required
             />
             <input
               type="text"
@@ -258,6 +262,7 @@ const CreateGame = props => {
               }
               value={locationCity}
               placeholder="City"
+              required
             />
             <input
               type="text"
@@ -270,6 +275,7 @@ const CreateGame = props => {
               }
               value={locationState}
               placeholder="State"
+              required
             />
             <input
               type="number"
@@ -280,6 +286,7 @@ const CreateGame = props => {
                   payload: e.currentTarget.value
                 })
               }
+              required
               value={locationZip}
               placeholder="Zip Code"
             />
@@ -299,6 +306,7 @@ const CreateGame = props => {
               }
               value={minPlayers}
               placeholder="Number"
+              required
             />
           </div>
           <div className="game-form-item">

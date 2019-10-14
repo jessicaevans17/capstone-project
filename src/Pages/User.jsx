@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import GameInfo from "../components/GameInfo"
 import moment from "moment"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHandPointDown } from "@fortawesome/free-solid-svg-icons"
+
+const HandPointDown = <FontAwesomeIcon icon={faHandPointDown} />
 
 const User = props => {
   const [upcomingGames, setUpcomingGames] = useState([])
@@ -29,6 +33,7 @@ const User = props => {
         </section>
         <section className="upcoming-games">
           <h2>{`${data.firstName}'s upcoming games:`}</h2>
+          <div className="hand-point-down">{HandPointDown}</div>
           {upcomingGames.length === 0 ? (
             <section className="upcoming-games">
               <h3>{`Oh no! ${data.firstName} isn't signed up for any games yet!`}</h3>

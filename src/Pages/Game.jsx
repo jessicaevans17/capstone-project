@@ -33,27 +33,23 @@ const Game = props => {
   const [isExpired, setIsExpired] = useState(false)
 
   const AddPlayer = async () => {
-    if (players.length === neededPlayers) {
-      console.log("at capacity!")
-    } else {
-      try {
-        const resp = await axios.post(
-          `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
-          {
-            userId: user.sub,
-            name: user.name,
-            email: user.email,
-            profileUrl: user.picture,
-            gameId: data.id,
-            firstName: user.given_name,
-            lastName: user.family_name
-          }
-        )
-        ShowPlayers()
-        console.log(resp)
-      } catch {
-        console.log("You're already going!")
-      }
+    try {
+      const resp = await axios.post(
+        `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
+        {
+          userId: user.sub,
+          name: user.name,
+          email: user.email,
+          profileUrl: user.picture,
+          gameId: data.id,
+          firstName: user.given_name,
+          lastName: user.family_name
+        }
+      )
+      ShowPlayers()
+      console.log(resp)
+    } catch {
+      console.log("You're already going!")
     }
   }
 
@@ -93,40 +89,50 @@ const Game = props => {
           )}
           <section className="game-and-host"></section>
         </section>
-        <section className="join-info bottom-border">
-          <div className="join-info-top">
-            <div className="join-intro">
-              {/* <p className="bold">Want to play?</p> */}
-              <p>Spots left: {maxAllowed}</p>
-              <p>Players needed: {neededPlayers}</p>
-            </div>
-            {!isAuthenticated && (
-              <div className="attend-buttons">
-                <button
-                  className="join-button"
-                  onClick={() => loginWithRedirect({})}
-                >
-                  {check}
-                </button>
-                <button
-                  className="leave-button"
-                  onClick={() => loginWithRedirect({})}
-                >
-                  {times}
-                </button>
-              </div>
-            )}
-            {isAuthenticated && (
-              <div className="attend-buttons">
-                <button className="join-button" onClick={AddPlayer}>
-                  {check}
-                </button>
-                <button className="leave-button" onClick={DeletePlayer}>
-                  {times}
-                </button>
-              </div>
-            )}
+        <div className="join-info-top">
+          <div className="join-intro">
+            {/* <p className="bold">Want to play?</p> */}
+            <p>Spots left: {maxAllowed}</p>
+            <p>Players needed: {neededPlayers}</p>
           </div>
+
+          {players.length < maxAllowed ? (
+            <>
+              {" "}
+              {!isAuthenticated && (
+                <div className="attend-buttons">
+                  <button
+                    className="join-button"
+                    onClick={() => loginWithRedirect({})}
+                  >
+                    {check}
+                  </button>
+                  <button
+                    className="leave-button"
+                    onClick={() => loginWithRedirect({})}
+                  >
+                    {times}
+                  </button>
+                </div>
+              )}
+              {isAuthenticated && (
+                <div className="attend-buttons">
+                  <button className="join-button" onClick={AddPlayer}>
+                    {check}
+                  </button>
+                  <button className="leave-button" onClick={DeletePlayer}>
+                    {times}
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <h3>No Spots left!</h3>
+            </>
+          )}
+        </div>
+        <section className="join-info bottom-border">
           <div className="timer-info bottom-border">
             <Timer expiryTimestamp={deadline} />
             <p>
