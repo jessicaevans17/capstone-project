@@ -1,0 +1,17 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+// styling for pages
+@import "./PageStyling/Homepage.scss";
+@import "./PageStyling/User.scss";
+@import "./PageStyling/ProfilePage.scss";
+@import "./PageStyling/Game.scss";
+@import "./PageStyling/BrowseGames.scss";
+@import "./PageStyling/CreateGame.scss";
+
+// styling for components
+@import "./ComponentStyling/Footer.scss";
+@import "./ComponentStyling/Navbar.scss";
+@import "./ComponentStyling/GameInfo.scss";
+@import "./ComponentStyling/DropDownMenu.scss";
+@import "./ComponentStyling/NavButtons.scss";

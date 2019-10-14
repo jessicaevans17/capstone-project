@@ -2,50 +2,68 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 import { useAuth0 } from "../react-auth0-wrapper"
 import axios from "axios"
-import altPic from "../images/AltGamePic.jpeg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faClock,
   faCalendarAlt,
   faMapMarkedAlt,
-  faDice
+  faCheck,
+  faTimes,
+  faUserAlt
 } from "@fortawesome/free-solid-svg-icons"
+import Timer from "../components/Timer"
+import { Link } from "react-router-dom"
 
 const clock = <FontAwesomeIcon icon={faClock} />
 const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
 const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
-const dice = <FontAwesomeIcon icon={faDice} />
+const check = <FontAwesomeIcon icon={faCheck} />
+const times = <FontAwesomeIcon icon={faTimes} />
+const userIcon = <FontAwesomeIcon icon={faUserAlt} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
   const data = props.location.state.game
-  console.log(data)
+  const gameTime = new Date(data.dateOfPlay)
+  const deadline = moment(gameTime).subtract(1, "days")
   const [players, setPlayers] = useState([])
+  const maxPlayers = data.maxPlayers
+  const maxAllowed = maxPlayers - players.length
+  const neededPlayers = data.minPlayers - players.length
+  const [isExpired, setIsExpired] = useState(false)
 
   const AddPlayer = async () => {
-    const resp = await axios.post(
-      `https://localhost:5001/api/Players/${data.id}`,
-      {
-        userId: user.sub,
-        name: user.name,
-        email: user.email,
-        profileUrl: user.picture,
-        gameId: data.id
-      }
-    )
-
-    console.log(resp.data)
+    try {
+      const resp = await axios.post(
+        `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`,
+        {
+          userId: user.sub,
+          name: user.name,
+          email: user.email,
+          profileUrl: user.picture,
+          gameId: data.id,
+          firstName: user.given_name,
+          lastName: user.family_name
+        }
+      )
+      ShowPlayers()
+      console.log(resp)
+    } catch {
+      console.log("You're already going!")
+    }
   }
 
   const DeletePlayer = async () => {
     const resp = await axios.delete(
-      `https://localhost:5001/api/Players/${data.id}/${user.sub}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}/${user.sub}`
     )
+    ShowPlayers()
+    console.log(resp)
   }
 
   const ShowPlayers = async () => {
     const response = await axios.get(
-      `https://localhost:5001/api/Players/${data.id}`
+      `https://game-starter-app.herokuapp.com/api/Players/${data.id}`
     )
     console.log(response.data)
     setPlayers(response.data)
@@ -58,7 +76,7 @@ const Game = props => {
   return (
     <>
       <main className="game-details">
-        <div className="detailed-game-info">
+        <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
           {data.gameImageUrl ? (
             <img
@@ -69,86 +87,159 @@ const Game = props => {
           ) : (
             <></>
           )}
-
-          <div className="players-attending join-info">
-            <p>
-              <strong>Hosted by:</strong>
-            </p>
-            <figure>
-              <img
-                className="profile-pic"
-                src={data.creatorProfilePic}
-                alt="User's Profile"
-              />
-              <figcaption>{data.creator}</figcaption>
-            </figure>
+          <section className="game-and-host"></section>
+        </section>
+        <div className="join-info-top">
+          <div className="join-intro">
+            {/* <p className="bold">Want to play?</p> */}
+            <p>Spots left: {maxAllowed}</p>
+            <p>Players needed: {neededPlayers}</p>
           </div>
-          <p>
-            <strong>{calendar} </strong>
-            {moment(data.dateOfPlay).format("MMMM Do YYYY")}
-          </p>
-          <p>
-            <strong>{clock}</strong> {moment(data.dateOfPlay).format("LT")}
-          </p>
-          <p>
-            <strong>{map}</strong> {data.locationName} <br></br>
-            {data.address} <br></br>
-            {data.city}
-            {data.state}
-            {data.zipCode}
-          </p>
-          <p>
-            <strong> Number of Players Needed:</strong> {data.minPlayers}
-          </p>
-          <div className="players-attending">
+
+          {players.length < maxAllowed ? (
+            <>
+              {" "}
+              {!isAuthenticated && (
+                <div className="attend-buttons">
+                  <button
+                    className="join-button"
+                    onClick={() => loginWithRedirect({})}
+                  >
+                    {check}
+                  </button>
+                  <button
+                    className="leave-button"
+                    onClick={() => loginWithRedirect({})}
+                  >
+                    {times}
+                  </button>
+                </div>
+              )}
+              {isAuthenticated && (
+                <div className="attend-buttons">
+                  <button className="join-button" onClick={AddPlayer}>
+                    {check}
+                  </button>
+                  <button className="leave-button" onClick={DeletePlayer}>
+                    {times}
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <h3>No Spots left!</h3>
+            </>
+          )}
+        </div>
+        <section className="join-info bottom-border">
+          <div className="timer-info bottom-border">
+            <Timer expiryTimestamp={deadline} />
+            <p>
+              All or nothing. This game will only happen if it reaches the
+              number of players needed by{" "}
+              {moment(deadline).format("MMMM Do YYYY")}
+            </p>
+          </div>
+          <div className="game-logistics">
+            <div className="icon-details">
+              <p>
+                <strong>{calendar} </strong>
+              </p>
+              <p>{moment(data.dateOfPlay).format("MMMM Do YYYY")}</p>
+            </div>
+            <div className="icon-details">
+              <p>
+                <strong>{clock}</strong>{" "}
+              </p>
+              <p>{moment(data.dateOfPlay).format("LT")}</p>
+            </div>
+
+            {data.privateResidence ? (
+              <div className="icon-details">
+                <p>
+                  <strong>{map}</strong>
+                </p>
+                <p>
+                  {data.locationName} <br></br>
+                  {`${data.city}, ${data.state} ${data.zipCode}`}
+                  <br></br>
+                  <br />
+                  This game is happening at a private residence. Address will
+                  only be revealed once you have joined the game.
+                </p>
+              </div>
+            ) : (
+              <div className="icon-details">
+                <p>
+                  <strong>{map}</strong>
+                </p>
+                <p>
+                  {data.locationName} <br></br>
+                  {data.address}
+                  <br></br>
+                  {`${data.city}, ${data.state} ${data.zipCode}`}
+                </p>
+              </div>
+            )}
+            <div className="icon-details">
+              <p>
+                <strong>{userIcon}</strong>
+              </p>
+              <p>Hosted by {data.creator}</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="players-attending bottom-border">
             <p>
               <strong>Players Attending:</strong> {players.length}
             </p>
             <section>
-              {players.map(player => {
+              {players.map((player, i) => {
                 return (
-                  <img
-                    className="profile-pic"
-                    key={player.id}
-                    src={player.profileURL}
-                    alt={`Profile of ${player.name}`}
-                  />
+                  <Link
+                    key={i}
+                    to={{
+                      pathname: `/user/profile/${player.id}`,
+                      state: { player }
+                    }}
+                  >
+                    <img
+                      className="profile-pic"
+                      key={player.id}
+                      src={player.profileURL}
+                      alt={`Profile of ${player.name}`}
+                    />
+                  </Link>
                 )
               })}
             </section>
           </div>
-          <div>
+          <div className="description-rules">
             {data.description ? (
               <p>
-                <strong>Game Description: </strong> {data.description}
+                <strong>Description: </strong> {data.description}
               </p>
             ) : (
               <p>
-                <strong>Game Description: </strong> No description available...
+                <strong>Description: </strong> No description available...
               </p>
             )}
 
             {data.rulesUrl ? (
               <p>
-                <strong>Game Rules: </strong>{" "}
+                <strong>Rules: </strong>{" "}
                 <a href={data.rulesUrl}>{data.rulesUrl}</a>
               </p>
             ) : (
               <p>
-                <strong>Game Rules: </strong> No rules available...
+                <strong>Rules: </strong> No rules available...
               </p>
             )}
           </div>
-        </div>
-        {!isAuthenticated && (
-          <button onClick={() => loginWithRedirect({})}>Join the game!</button>
-        )}
-        {isAuthenticated && (
-          <>
-            <button onClick={AddPlayer}>Join the game!</button>
-            <button onClick={DeletePlayer}>Leave game</button>
-          </>
-        )}
+        </section>
       </main>
     </>
   )

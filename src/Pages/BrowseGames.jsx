@@ -8,7 +8,9 @@ const BrowseGames = () => {
   const [games, setGames] = useState([])
 
   const fetchData = async () => {
-    const resp = await axios.get("https://localhost:5001/api/Games")
+    const resp = await axios.get(
+      "https://game-starter-app.herokuapp.com/api/Games"
+    )
     console.log(resp.data)
     setGames(resp.data)
   }
@@ -20,25 +22,29 @@ const BrowseGames = () => {
   return (
     <>
       <main className="browse-games-main">
-        <h1>Browse Games</h1>
-        {games.map((game, i) => {
-          return (
-            <Link
-              key={i}
-              to={{
-                pathname: `/${game.id}`,
-                state: { game }
-              }}
-            >
-              <GameInfo
-                title={game.gameTitle}
-                address={game.address}
-                date={moment(game.dateOfPlay).format("MMMM Do YYYY")}
-                time={moment(game.dateOfPlay).format("LT")}
-              />
-            </Link>
-          )
-        })}
+        <h1>Find your next game</h1>
+        <div className="browse-games-container">
+          {games.map((game, i) => {
+            return (
+              <Link
+                key={i}
+                to={{
+                  pathname: `/${game.id}`,
+                  state: { game }
+                }}
+              >
+                <GameInfo
+                  title={game.gameTitle}
+                  city={game.city}
+                  state={game.state}
+                  zipCode={game.zipCode}
+                  date={moment(game.dateOfPlay).format("MMMM Do YYYY")}
+                  time={moment(game.dateOfPlay).format("LT")}
+                />
+              </Link>
+            )
+          })}
+        </div>
       </main>
     </>
   )

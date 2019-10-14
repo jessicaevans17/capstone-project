@@ -1,0 +1,39 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+.user-page-main {
+  @include flex-column;
+  align-items: center;
+  .user-info {
+    background-color: $tertiary-color;
+    width: 100%;
+    text-align: center;
+    color: $secondary-color;
+    padding: 1rem 0rem;
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0rem;
+    }
+    img {
+      height: 5rem;
+      @include border(9rem, $secondary-color, 1px);
+    }
+  }
+
+  .upcoming-games {
+    @include flex-column;
+    align-items: center;
+    h3 {
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.25rem;
+    }
+    .hand-point-down {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: $yellow;
+    }
+  }
+}

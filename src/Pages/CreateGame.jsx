@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useReducer } from "react"
+import React, { useState, useReducer } from "react"
 import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
+import signUpPic from "../images/signuppic.jpg"
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -55,7 +56,7 @@ const initialState = {
 
 const CreateGame = props => {
   const [state, dispatch] = useReducer(formReducer, initialState)
-  const { user } = useAuth0()
+  const { user, getIdTokenClaims } = useAuth0()
   const {
     dateTime,
     locationName,
@@ -76,6 +77,7 @@ const CreateGame = props => {
   const [minPlayTime, setMinPlayTime] = useState("")
   const [maxPlayTime, setMaxPlayTime] = useState("")
   const [rulesUrl, setRulesUrl] = useState("")
+  const [privateResidence, setPrivateResidence] = useState(true)
 
   const getInfo = async title => {
     const resp = await axios.get(
@@ -103,32 +105,45 @@ const CreateGame = props => {
   const submitData = async event => {
     event.preventDefault()
     dispatch({ type: "submit" })
-    const resp = await axios.post("https://localhost:5001/api/Games", {
-      gameTitle: choice,
-      description: description,
-      zipCode: locationZip,
-      address: locationAddress,
-      minPlayers: minPlayers,
-      maxPlayers: maxPlayers,
-      dateOfPlay: dateTime,
-      locationName: locationName,
-      city: locationCity,
-      state: locationState,
-      creator: user.name,
-      creatorProfilePic: user.picture,
-      minPlayTime: minPlayTime,
-      maxPlayTime: maxPlayTime,
-      gameImageUrl: gamePicture,
-      rulesUrl: rulesUrl
-    })
+    const userData = await getIdTokenClaims()
+    const token = userData.__raw
+    console.log({ token })
+    const resp = await axios.post(
+      "https://game-starter-app.herokuapp.com/api/Games",
+      {
+        gameTitle: choice,
+        description: description,
+        zipCode: locationZip,
+        address: locationAddress,
+        minPlayers: minPlayers,
+        maxPlayers: maxPlayers,
+        dateOfPlay: dateTime,
+        locationName: locationName,
+        city: locationCity,
+        state: locationState,
+        creator: user.name,
+        creatorId: user.sub,
+        creatorProfilePic: user.picture,
+        minPlayTime: minPlayTime,
+        maxPlayTime: maxPlayTime,
+        gameImageUrl: gamePicture,
+        rulesUrl: rulesUrl,
+        privateResidence: privateResidence
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      }
+    )
     console.log(resp)
     setTimeout(dispatch({ type: "reset" }), 3000)
   }
   return (
     <main className="create-game-main">
-      <h1>Create a New Game</h1>
+      <h1>Start your game</h1>
       <div className="form-container">
-        <form onSubmit={submitData}>
+        <form className="game-form" onSubmit={submitData}>
           <div className="game-form-item">
             <label>What game do you want to play?</label>
             <input
@@ -139,6 +154,7 @@ const CreateGame = props => {
                 setChoice(e.target.value)
               }}
               value={choice}
+              required
             />
             {isOpen ? (
               <section className="dropdown-list">
@@ -150,13 +166,13 @@ const CreateGame = props => {
                       type="button"
                       onClick={e => {
                         handleClick(game.name)
-                        setDescription(game.description)
+                        setDescription(game.description_preview)
                         setGamePicture(game.thumb_url)
                         setIsOpen(false)
                         setMinPlayTime(game.min_url)
                         setMaxPlayTime(game.max_url)
                         setRulesUrl(game.rules_url)
-                        console.log(game.description)
+                        console.log(game.description_preview)
                       }}
                     >
                       {game.name}
@@ -180,6 +196,7 @@ const CreateGame = props => {
                 })
               }
               value={dateTime}
+              required
             />
           </div>
           <div className="game-form-item">
@@ -196,6 +213,31 @@ const CreateGame = props => {
               value={locationName}
               placeholder="Name of Place (i.e. My House, 3 Daughters)"
             />
+            <p>Is this a private residence?</p>
+            <div className="residence-type">
+              <div>
+                <input
+                  type="radio"
+                  onClick={() => {
+                    setPrivateResidence(true)
+                  }}
+                  name="residence-type"
+                  value="yes"
+                />
+                <label htmlFor="yes">Yes</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  onClick={() => {
+                    setPrivateResidence(false)
+                  }}
+                  name="residence-type"
+                  value="no"
+                />
+                <label htmlFor="yes">No</label>
+              </div>
+            </div>
             <input
               type="text"
               onChange={e =>
@@ -207,6 +249,7 @@ const CreateGame = props => {
               }
               value={locationAddress}
               placeholder="Address"
+              required
             />
             <input
               type="text"
@@ -219,6 +262,7 @@ const CreateGame = props => {
               }
               value={locationCity}
               placeholder="City"
+              required
             />
             <input
               type="text"
@@ -231,6 +275,7 @@ const CreateGame = props => {
               }
               value={locationState}
               placeholder="State"
+              required
             />
             <input
               type="number"
@@ -241,12 +286,15 @@ const CreateGame = props => {
                   payload: e.currentTarget.value
                 })
               }
+              required
               value={locationZip}
               placeholder="Zip Code"
             />
           </div>
           <div className="game-form-item">
-            <label>Minimum number of players needed? </label>
+            <label>
+              Minimum number of players needed? (Including yourself)
+            </label>
             <input
               type="number"
               onChange={e =>
@@ -258,10 +306,13 @@ const CreateGame = props => {
               }
               value={minPlayers}
               placeholder="Number"
+              required
             />
           </div>
           <div className="game-form-item">
-            <label>Maximum number of players allowed? </label>
+            <label>
+              Maximum number of players allowed? (Including yourself){" "}
+            </label>
             <input
               type="number"
               onChange={e =>
@@ -291,6 +342,11 @@ const CreateGame = props => {
             <></>
           )}
         </form>
+        <img
+          className="sign-up-pic"
+          src={signUpPic}
+          alt="Dragon playing piece on a board game."
+        />
       </div>
     </main>
   )

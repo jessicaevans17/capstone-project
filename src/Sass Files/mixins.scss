@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css?family=Red+Hat+Display&display=swap");
+@import "variables.scss";
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin border($radius, $border-color, $border-width) {
+  border-radius: $radius;
+  border: solid $border-color $border-width;
+}
+
+@mixin primary-font {
+  font-family: "Red Hat Display", sans-serif;
+}
+
+// Small devices
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}

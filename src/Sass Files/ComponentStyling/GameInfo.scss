@@ -1,0 +1,15 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+.game-info {
+  @include border(1rem, $secondary-color, 1px);
+  background-color: $tertiary-color;
+  color: $secondary-color;
+  padding: 0.5rem 1rem;
+  width: 15rem;
+  margin-bottom: 1rem;
+
+  h2 {
+    font-size: 1.25rem;
+  }
+}

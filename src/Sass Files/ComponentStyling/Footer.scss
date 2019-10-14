@@ -1,0 +1,17 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+footer {
+  @include flex-row;
+  justify-content: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+
+  a {
+    margin: 0rem 0.75rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: $primary-color;
+  }
+}
