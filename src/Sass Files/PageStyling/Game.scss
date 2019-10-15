@@ -4,15 +4,13 @@
 .game-details {
   @include flex-column;
   margin: 0rem 1rem;
+  color: $tertiary-color;
 
   h1 {
     margin-bottom: 1rem;
+    margin-right: 4rem;
   }
 
-  .profile-pic {
-    height: 3rem;
-    @include border(9rem, $black, 0rem);
-  }
   strong {
     font-size: 1.2rem;
   }
@@ -39,9 +37,6 @@
   margin-left: 1rem;
   padding: 0.5rem 0.75rem;
 }
-.join-intro {
-  pline-height: 1;
-}
 
 .timer-info {
   h2 {
@@ -63,12 +58,12 @@
 }
 .join-info-top {
   @include flex-row;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 }
 .main-game-info {
   @include flex-row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding-top: 1rem;
 }
@@ -76,4 +71,31 @@
 .bold {
   font-weight: bold;
   font-size: 1.25rem;
+}
+
+.attend-buttons {
+  text-align: center;
+  p {
+    margin-top: 0rem;
+    margin-bottom: 6px;
+  }
+  margin-right: 0.5rem;
+}
+.description-rules {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.profile-pic {
+  height: 3rem;
+  @include border(9rem, $tertiary-color, 1px);
+}
+
+.red-icon {
+  color: $red;
+  font-size: 1.2rem;
+}
+
+.private-residence {
+  @include flex-column;
 }

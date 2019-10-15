@@ -9,7 +9,8 @@ import {
   faMapMarkedAlt,
   faCheck,
   faTimes,
-  faUserAlt
+  faUserAlt,
+  faInfoCircle
 } from "@fortawesome/free-solid-svg-icons"
 import Timer from "../components/Timer"
 import { Link } from "react-router-dom"
@@ -20,6 +21,7 @@ const map = <FontAwesomeIcon icon={faMapMarkedAlt} />
 const check = <FontAwesomeIcon icon={faCheck} />
 const times = <FontAwesomeIcon icon={faTimes} />
 const userIcon = <FontAwesomeIcon icon={faUserAlt} />
+const infoCircle = <FontAwesomeIcon icon={faInfoCircle} />
 
 const Game = props => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0()
@@ -31,6 +33,7 @@ const Game = props => {
   const maxAllowed = maxPlayers - players.length
   const neededPlayers = data.minPlayers - players.length
   const [isExpired, setIsExpired] = useState(false)
+  const [alreadyJoined, setAlreadyJoined] = useState(false)
 
   const AddPlayer = async () => {
     try {
@@ -50,6 +53,10 @@ const Game = props => {
       console.log(resp)
     } catch {
       console.log("You're already going!")
+      setAlreadyJoined(true)
+      setTimeout(() => {
+        setAlreadyJoined(false)
+      }, 1000)
     }
   }
 
@@ -65,8 +72,8 @@ const Game = props => {
     const response = await axios.get(
       `https://game-starter-app.herokuapp.com/api/Players/${data.id}`
     )
-    console.log(response.data)
-    setPlayers(response.data)
+    console.log(response.data.players)
+    setPlayers(response.data.players)
   }
 
   useEffect(() => {
@@ -91,39 +98,49 @@ const Game = props => {
         </section>
         <div className="join-info-top">
           <div className="join-intro">
-            {/* <p className="bold">Want to play?</p> */}
             <p>Spots left: {maxAllowed}</p>
             <p>Players needed: {neededPlayers}</p>
           </div>
 
-          {players.length < maxAllowed ? (
+          {maxAllowed != 0 ? (
             <>
               {" "}
-              {!isAuthenticated && (
+              {!isAuthenticated && !isExpired ? (
                 <div className="attend-buttons">
+                  <p>Login to join!</p>
                   <button
                     className="join-button"
                     onClick={() => loginWithRedirect({})}
                   >
-                    {check}
-                  </button>
-                  <button
-                    className="leave-button"
-                    onClick={() => loginWithRedirect({})}
-                  >
-                    {times}
+                    Login
                   </button>
                 </div>
+              ) : (
+                <></>
               )}
-              {isAuthenticated && (
-                <div className="attend-buttons">
-                  <button className="join-button" onClick={AddPlayer}>
-                    {check}
-                  </button>
-                  <button className="leave-button" onClick={DeletePlayer}>
-                    {times}
-                  </button>
-                </div>
+              {isAuthenticated && !isExpired ? (
+                <>
+                  <div className="attend-buttons">
+                    <p>Want to play?</p>
+                    <button
+                      className="join-button"
+                      onClick={AddPlayer}
+                      disabled={isExpired}
+                    >
+                      {check}
+                    </button>
+                    <button
+                      className="leave-button"
+                      onClick={DeletePlayer}
+                      disabled={isExpired}
+                    >
+                      {times}
+                    </button>
+                    {alreadyJoined ? <p>You're already signed up!</p> : <></>}
+                  </div>
+                </>
+              ) : (
+                <></>
               )}
             </>
           ) : (
@@ -134,12 +151,24 @@ const Game = props => {
         </div>
         <section className="join-info bottom-border">
           <div className="timer-info bottom-border">
-            <Timer expiryTimestamp={deadline} />
-            <p>
-              All or nothing. This game will only happen if it reaches the
-              number of players needed by{" "}
-              {moment(deadline).format("MMMM Do YYYY")}
-            </p>
+            <Timer expiryTimestamp={deadline} disableButtons={setIsExpired} />
+            {!isExpired ? (
+              <div className="icon-details ">
+                <p className="red-icon">{infoCircle}</p>
+                <p>
+                  {`All or nothing. This game will only happen if it reaches the
+              number of players needed by
+              ${moment(deadline).format("MMMM Do YYYY")}`}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="icon-details ">
+                  <p className="red-icon">{infoCircle}</p>
+                  <p>Time has run out to join this game.</p>
+                </div>
+              </>
+            )}
           </div>
           <div className="game-logistics">
             <div className="icon-details">
@@ -156,18 +185,23 @@ const Game = props => {
             </div>
 
             {data.privateResidence ? (
-              <div className="icon-details">
-                <p>
-                  <strong>{map}</strong>
-                </p>
-                <p>
-                  {data.locationName} <br></br>
-                  {`${data.city}, ${data.state} ${data.zipCode}`}
-                  <br></br>
-                  <br />
-                  This game is happening at a private residence. Address will
-                  only be revealed once you have joined the game.
-                </p>
+              <div className="private-residence">
+                <div className="icon-details">
+                  <p>
+                    <strong>{map}</strong>
+                  </p>
+                  <p>
+                    {data.locationName} <br></br>
+                    {`${data.city}, ${data.state} ${data.zipCode}`}
+                  </p>
+                </div>
+                <div className="icon-details">
+                  <p className="red-icon">{infoCircle}</p>
+                  <p>
+                    This game is happening at a private residence. Address will
+                    only be revealed once you have joined the game.
+                  </p>
+                </div>
               </div>
             ) : (
               <div className="icon-details">

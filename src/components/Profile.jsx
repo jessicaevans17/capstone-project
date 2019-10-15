@@ -17,7 +17,7 @@ const Profile = () => {
   const [gamesHosting, setGamesHosting] = useState([])
   const findUpcomingGames = async () => {
     const resp = await axios.get(
-      `https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`
+      ` https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`
     )
 
     console.log(resp.data)
@@ -30,6 +30,14 @@ const Profile = () => {
     )
     console.log(resp.data)
     setGamesHosting(resp.data)
+  }
+  const DeleteGame = async game => {
+    const resp = await axios.delete(
+      `https://game-starter-app.herokuapp.com/api/Games/delete/${game}/${user.sub}`
+    )
+    console.log(resp)
+    findHostingGames()
+    findUpcomingGames()
   }
 
   useEffect(() => {
@@ -45,13 +53,11 @@ const Profile = () => {
           <h1>{user.name}</h1>
         </section>
         <section className="upcoming-games">
-          <h2>Upcoming games</h2>
-
-          <div className="hand-point-down">{HandPointDown}</div>
           <h3>Hosting</h3>
           {gamesHosting.length === 0 ? (
             <>
-              <h2>You aren't hosting any upcoming games! Let's fix that!</h2>
+              <h4>You aren't hosting any upcoming games! Let's fix that!</h4>
+              <div className="hand-point-down">{HandPointDown}</div>
               <Link to="/new/game" className="sign-in-button">
                 Start a Game
               </Link>
@@ -61,21 +67,36 @@ const Profile = () => {
           )}
           {gamesHosting.map((g, i) => {
             return (
-              <GameInfo
-                key={i}
-                title={g.gameTitle}
-                city={g.city}
-                state={g.state}
-                zipCode={g.zipCode}
-                date={moment(g.dateOfPlay).format("MMMM Do YYYY")}
-                time={moment(g.dateOfPlay).format("LT")}
-              />
+              <>
+                <GameInfo
+                  key={i}
+                  title={g.gameTitle}
+                  city={g.city}
+                  state={g.state}
+                  zipCode={g.zipCode}
+                  date={moment(g.dateOfPlay).format("MMMM Do YYYY")}
+                  time={moment(g.dateOfPlay).format("LT")}
+                  players={g.players}
+                  playersGoing={g.players.length}
+                  playersNeeded={g.minPlayers - g.players.length}
+                  maxAllowed={g.maxPlayers - g.players.length}
+                  gamePic={g.gameImageUrl}
+                />
+                <button
+                  className="cancel-button"
+                  onClick={e => {
+                    DeleteGame(g.id)
+                  }}
+                >
+                  Cancel Game
+                </button>
+              </>
             )
           })}
           <h3>Attending</h3>
           {upComingGames.length === 0 ? (
             <section className="upcoming-games">
-              <h2>Oh no! You aren't signed up for any games yet!</h2>
+              <h4>Oh no! You aren't signed up for any games yet!</h4>
               <div className="hand-point-down">{HandPointDown}</div>
               <Link to="/browse/games" className="sign-in-button">
                 Browse Games
@@ -84,6 +105,7 @@ const Profile = () => {
           ) : (
             <></>
           )}
+
           {upComingGames.map((g, i) => {
             return (
               <GameInfo
@@ -94,6 +116,11 @@ const Profile = () => {
                 zipCode={g.game.zipCode}
                 date={moment(g.game.dateOfPlay).format("MMMM Do YYYY")}
                 time={moment(g.game.dateOfPlay).format("LT")}
+                players={g.game.players}
+                playersGoing={g.game.players.length}
+                playersNeeded={g.game.minPlayers - g.game.players.length}
+                maxAllowed={g.game.maxPlayers - g.game.players.length}
+                gamePic={g.game.gameImageUrl}
               />
             )
           })}

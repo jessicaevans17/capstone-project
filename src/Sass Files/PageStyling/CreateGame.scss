@@ -79,16 +79,12 @@
   }
 
   .sign-up-pic {
-    visibility: hidden;
+    display: none;
     @include md {
-      visibility: visible;
+      display: flex;
       height: 20rem;
       align-self: flex-start;
       @include border(1rem, $black, 1px);
     }
   }
-}
-.description-rules {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
 }

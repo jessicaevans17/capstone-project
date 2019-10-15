@@ -40,6 +40,11 @@ const BrowseGames = () => {
                   zipCode={game.zipCode}
                   date={moment(game.dateOfPlay).format("MMMM Do YYYY")}
                   time={moment(game.dateOfPlay).format("LT")}
+                  players={game.players}
+                  playersGoing={game.players.length}
+                  playersNeeded={game.minPlayers - game.players.length}
+                  maxAllowed={game.maxPlayers - game.players.length}
+                  gamePic={game.gameImageUrl}
                 />
               </Link>
             )

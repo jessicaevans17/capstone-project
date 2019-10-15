@@ -9,7 +9,7 @@ const NavBar = () => {
   console.log(user)
   return (
     <>
-      <header>
+      <header className="navbar">
         <nav>
           <section className="logo">
             <Link to="/">

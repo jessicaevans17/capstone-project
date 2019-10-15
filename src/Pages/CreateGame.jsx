@@ -3,72 +3,17 @@ import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
 import signUpPic from "../images/signuppic.jpg"
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "field": {
-      return {
-        ...state,
-        [action.fieldName]: action.payload
-      }
-    }
-    case "submit": {
-      return {
-        ...state,
-        isSubmitted: true
-      }
-    }
-
-    case "reset": {
-      return {
-        gameTitle: "",
-        dateTime: "",
-        locationName: "",
-        locationAddress: "",
-        locationState: "",
-        locationZip: "",
-        locationCity: "",
-        minPlayers: "",
-        maxPlayers: "",
-        isSubmitted: false,
-        boardGameData: "",
-        choice: ""
-      }
-    }
-
-    default:
-      return state
-  }
-}
-
-const initialState = {
-  gameTitle: "",
-  dateTime: "",
-  locationName: "",
-  locationAddress: "",
-  locationState: "",
-  locationZip: "",
-  locationCity: "",
-  minPlayers: "",
-  maxPlayers: "",
-  isSubmitted: false,
-  boardGameData: ""
-}
-
-const CreateGame = props => {
-  const [state, dispatch] = useReducer(formReducer, initialState)
+const CreateGame = () => {
   const { user, getIdTokenClaims } = useAuth0()
-  const {
-    dateTime,
-    locationName,
-    locationAddress,
-    locationState,
-    locationZip,
-    locationCity,
-    minPlayers,
-    maxPlayers,
-    isSubmitted
-  } = state
 
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [maxPlayers, setMaxPlayers] = useState("")
+  const [minPlayers, setMinPlayers] = useState("")
+  const [locationZip, setLocationZip] = useState("")
+  const [locationState, setLocationState] = useState("")
+  const [locationAddress, setLocationAddress] = useState("")
+  const [locationName, setLocationName] = useState("")
+  const [dateTime, setDateTime] = useState("")
   const [results, setResults] = useState([])
   const [choice, setChoice] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -78,6 +23,7 @@ const CreateGame = props => {
   const [maxPlayTime, setMaxPlayTime] = useState("")
   const [rulesUrl, setRulesUrl] = useState("")
   const [privateResidence, setPrivateResidence] = useState(true)
+  const [locationCity, setLocationCity] = useState("")
 
   const getInfo = async title => {
     const resp = await axios.get(
@@ -96,15 +42,8 @@ const CreateGame = props => {
     }
   }
 
-  const handleClick = value => {
-    console.log({ value })
-    setChoice(value)
-    console.log(description)
-  }
-
   const submitData = async event => {
     event.preventDefault()
-    dispatch({ type: "submit" })
     const userData = await getIdTokenClaims()
     const token = userData.__raw
     console.log({ token })
@@ -137,7 +76,29 @@ const CreateGame = props => {
       }
     )
     console.log(resp)
-    setTimeout(dispatch({ type: "reset" }), 3000)
+    setIsSubmitted(true)
+    setTimeout(() => reset(), 2000)
+  }
+
+  const reset = () => {
+    setIsSubmitted(false)
+    setMaxPlayers("")
+    setMinPlayers("")
+    setLocationZip("")
+    setLocationState("")
+    setLocationAddress("")
+    setLocationName("")
+    setDateTime("")
+    setResults([])
+    setChoice("")
+    setIsOpen(false)
+    setDescription("")
+    setGamePicture("")
+    setMinPlayTime("")
+    setMaxPlayTime("")
+    setRulesUrl("")
+    setPrivateResidence(true)
+    setLocationCity("")
   }
   return (
     <main className="create-game-main">
@@ -165,7 +126,7 @@ const CreateGame = props => {
                       className="dropdown-option"
                       type="button"
                       onClick={e => {
-                        handleClick(game.name)
+                        setChoice(game.name)
                         setDescription(game.description_preview)
                         setGamePicture(game.thumb_url)
                         setIsOpen(false)
@@ -188,13 +149,7 @@ const CreateGame = props => {
             <label>When do you want to play?</label>
             <input
               type="datetime-local"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "dateTime",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setDateTime(e.target.value)}
               value={dateTime}
               required
             />
@@ -203,13 +158,7 @@ const CreateGame = props => {
             <label>Where do you want to play?</label>
             <input
               type="text"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "locationName",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setLocationName(e.target.value)}
               value={locationName}
               placeholder="Name of Place (i.e. My House, 3 Daughters)"
             />
@@ -240,52 +189,27 @@ const CreateGame = props => {
             </div>
             <input
               type="text"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "locationAddress",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setLocationAddress(e.target.value)}
               value={locationAddress}
               placeholder="Address"
               required
             />
             <input
               type="text"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "locationCity",
-                  payload: e.currentTarget.value
-                })
-              }
-              value={locationCity}
+              onChange={e => setLocationCity(e.target.value)}
               placeholder="City"
               required
             />
             <input
               type="text"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "locationState",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setLocationState(e.target.value)}
               value={locationState}
               placeholder="State"
               required
             />
             <input
               type="number"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "locationZip",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setLocationZip(e.target.value)}
               required
               value={locationZip}
               placeholder="Zip Code"
@@ -297,16 +221,11 @@ const CreateGame = props => {
             </label>
             <input
               type="number"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "minPlayers",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setMinPlayers(e.target.value)}
               value={minPlayers}
               placeholder="Number"
               required
+              min="1"
             />
           </div>
           <div className="game-form-item">
@@ -315,15 +234,10 @@ const CreateGame = props => {
             </label>
             <input
               type="number"
-              onChange={e =>
-                dispatch({
-                  type: "field",
-                  fieldName: "maxPlayers",
-                  payload: e.currentTarget.value
-                })
-              }
+              onChange={e => setMaxPlayers(e.target.value)}
               value={maxPlayers}
               placeholder="Number"
+              min="1"
             />
           </div>
           <button

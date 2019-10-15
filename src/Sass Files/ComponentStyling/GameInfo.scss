@@ -2,14 +2,41 @@
 @import "variables.scss";
 
 .game-info {
-  @include border(1rem, $secondary-color, 1px);
-  background-color: $tertiary-color;
-  color: $secondary-color;
+  @include border(0.5rem, $yellow, 6px);
+  background-color: white;
+  color: $tertiary-color;
   padding: 0.5rem 1rem;
   width: 15rem;
   margin-bottom: 1rem;
 
+  .game-info-top {
+    @include flex-row;
+    justify-content: space-between;
+  }
+
+  .game-img {
+    display: none;
+    margin-top: 0.5rem;
+  }
+
+  @include md {
+    width: 30rem;
+    justify-content: center;
+    .game-img {
+      display: flex;
+      height: 8rem;
+    }
+  }
+
   h2 {
     font-size: 1.25rem;
+  }
+
+  .attending {
+    @include flex-row;
+
+    img {
+      margin-right: 0.5rem;
+    }
   }
 }

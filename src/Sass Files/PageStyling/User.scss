@@ -24,11 +24,20 @@
   .upcoming-games {
     @include flex-column;
     align-items: center;
+    color: $tertiary-color;
     h3 {
       text-align: center;
+      border-bottom: solid $red 3px;
+      font-size: 1.5rem;
     }
     h2 {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    h4 {
+      text-align: center;
+      margin: 0.5rem 0.5rem;
     }
     .hand-point-down {
       font-size: 2.5rem;
@@ -36,4 +45,16 @@
       color: $yellow;
     }
   }
+}
+
+.cancel-button {
+  @include border(2rem, $secondary-color, 2px);
+  @include primary-font;
+  padding: 0.5rem;
+  background-color: $red;
+  color: white;
+  font-size: 0.85rem;
+  margin-top: -2.5rem;
+  z-index: 999;
+  margin-bottom: 1rem;
 }

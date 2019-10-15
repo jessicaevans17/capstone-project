@@ -1,11 +1,12 @@
 import React from "react"
 import { useTimer } from "react-timer-hook"
 
-const Timer = ({ expiryTimestamp }) => {
+const Timer = ({ expiryTimestamp, disableButtons }) => {
   const { seconds, minutes, hours, days } = useTimer({
     expiryTimestamp,
     onExpire: () => {
       console.log("expired!")
+      disableButtons(true)
     }
   })
   return (

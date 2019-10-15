@@ -51,6 +51,17 @@ const User = props => {
                 zipCode={g.game.zipCode}
                 date={moment(g.game.dateOfPlay).format("MMMM Do YYYY")}
                 time={moment(g.game.dateOfPlay).format("LT")}
+                playerPic={g.game.players.map(p => {
+                  return p.profileURL
+                })}
+                playerName={g.game.players.map(p => {
+                  return p.name
+                })}
+                players={g.game.players}
+                playersGoing={g.game.players.length}
+                playersNeeded={g.game.minPlayers - g.game.players.length}
+                maxAllowed={g.game.maxPlayers - g.game.players.length}
+                gamePic={g.game.gameImageUrl}
               />
             )
           })}
