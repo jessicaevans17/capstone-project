@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
 import signUpPic from "../images/signuppic.jpg"

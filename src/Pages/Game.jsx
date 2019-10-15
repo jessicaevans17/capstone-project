@@ -102,7 +102,7 @@ const Game = props => {
             <p>Players needed: {neededPlayers}</p>
           </div>
 
-          {maxAllowed != 0 ? (
+          {maxAllowed !== 0 ? (
             <>
               {" "}
               {!isAuthenticated && !isExpired ? (

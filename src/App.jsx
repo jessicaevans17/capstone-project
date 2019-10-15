@@ -3,7 +3,6 @@ import NavBar from "./components/NavBar"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import HomePage from "./Pages/HomePage"
 import BrowseGames from "./Pages/BrowseGames"
-import Footer from "./components/Footer"
 import CreateGame from "./Pages/CreateGame"
 import Game from "./Pages/Game"
 import Profile from "./components/Profile"
@@ -24,7 +23,6 @@ class App extends Component {
             <Route exact path="/:id" component={Game}></Route>
             <Route exact path="/user/profile/:id" component={User}></Route>
           </Switch>
-          {/* <Footer /> */}
         </Router>
       </>
     )

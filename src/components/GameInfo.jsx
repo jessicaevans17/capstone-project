@@ -21,7 +21,11 @@ const GameInfo = props => {
             return (
               <>
                 <div>
-                  <img className="profile-pic" src={player.profileURL} />
+                  <img
+                    className="profile-pic"
+                    src={player.profileURL}
+                    alt={`Profile of ${player.name}`}
+                  />
                 </div>
                 <p>{props.playersGoing}</p>
               </>
@@ -30,7 +34,7 @@ const GameInfo = props => {
         </div>
         {props.players.length > 0 ? (
           <div>
-            {props.PlayersNeeded != 0 ? (
+            {props.PlayersNeeded !== 0 ? (
               <p>Players needed: {props.playersNeeded}</p>
             ) : (
               <>
