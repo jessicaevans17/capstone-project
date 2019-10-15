@@ -250,7 +250,7 @@ const CreateGame = () => {
           </button>
           {isSubmitted ? (
             <>
-              <p>Your game was created!</p>
+              <p className="game-created">Your game was created!</p>
             </>
           ) : (
             <></>

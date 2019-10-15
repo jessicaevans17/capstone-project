@@ -1,5 +1,4 @@
 import React from "react"
-import UserIcon from "../images/userIcon.png"
 
 const GameInfo = props => {
   return (
@@ -20,21 +19,28 @@ const GameInfo = props => {
         <div className="attending">
           {props.players.map(player => {
             return (
-              <div>
-                <img className="profile-pic" src={player.profileURL} />
-              </div>
+              <>
+                <div>
+                  <img className="profile-pic" src={player.profileURL} />
+                </div>
+                <p>{props.playersGoing}</p>
+              </>
             )
           })}
-          <p>{props.playersGoing}</p>
         </div>
-
-        {props.PlayersNeeded != 0 ? (
-          <p>Players needed: {props.playersNeeded}</p>
+        {props.players.length > 0 ? (
+          <div>
+            {props.PlayersNeeded != 0 ? (
+              <p>Players needed: {props.playersNeeded}</p>
+            ) : (
+              <>
+                {" "}
+                <p>Spots left: {props.maxAllowed}</p>
+              </>
+            )}
+          </div>
         ) : (
-          <>
-            {" "}
-            <p>Spots left: {props.maxAllowed}</p>
-          </>
+          <></>
         )}
       </div>
     </>

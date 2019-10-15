@@ -9,6 +9,7 @@
   h1 {
     margin: 1rem 0rem;
     text-align: center;
+    color: $tertiary-color;
   }
   form {
     @include flex-column;
@@ -87,4 +88,8 @@
       @include border(1rem, $black, 1px);
     }
   }
+}
+
+.game-created {
+  text-align: center;
 }

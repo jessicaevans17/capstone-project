@@ -3,7 +3,6 @@ import { useAuth0 } from "../react-auth0-wrapper"
 import axios from "axios"
 import GameInfo from "./GameInfo"
 import moment from "moment"
-import NavButtons from "./NavButtons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHandPointDown } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom"
@@ -12,9 +11,9 @@ const HandPointDown = <FontAwesomeIcon icon={faHandPointDown} />
 
 const Profile = () => {
   const { user } = useAuth0()
-
   const [upComingGames, setUpComingGames] = useState([])
   const [gamesHosting, setGamesHosting] = useState([])
+
   const findUpcomingGames = async () => {
     const resp = await axios.get(
       ` https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`

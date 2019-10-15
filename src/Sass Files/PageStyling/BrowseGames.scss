@@ -13,6 +13,9 @@
     text-align: center;
     font-size: 1.5rem;
     color: $secondary-color;
+    @include md {
+      font-size: 2rem;
+    }
   }
   a {
     text-decoration: none;
