@@ -27,10 +27,10 @@ const GameInfo = props => {
                     alt={`Profile of ${player.name}`}
                   />
                 </div>
-                <p>{props.playersGoing}</p>
               </>
             )
           })}
+          <p>{props.playersGoing}</p>
         </div>
         {props.players.length > 0 ? (
           <div>
