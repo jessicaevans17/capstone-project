@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHandPointDown } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom"
 
+const API_URL = "https://localhost:5001"
+
 const HandPointDown = <FontAwesomeIcon icon={faHandPointDown} />
 
 const Profile = () => {
@@ -16,7 +18,7 @@ const Profile = () => {
 
   const findUpcomingGames = async () => {
     const resp = await axios.get(
-      ` https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`
+      `https://game-starter-app.herokuapp.com/api/Players/games/${user.sub}/upcoming`
     )
 
     console.log(resp.data)
@@ -108,18 +110,18 @@ const Profile = () => {
           {upComingGames.map((g, i) => {
             return (
               <GameInfo
-                key={g.id}
-                title={g.game.gameTitle}
-                city={g.game.city}
-                state={g.game.state}
-                zipCode={g.game.zipCode}
-                date={moment(g.game.dateOfPlay).format("MMMM Do YYYY")}
-                time={moment(g.game.dateOfPlay).format("LT")}
-                players={g.game.players}
-                playersGoing={g.game.players.length}
-                playersNeeded={g.game.minPlayers - g.game.players.length}
-                maxAllowed={g.game.maxPlayers - g.game.players.length}
-                gamePic={g.game.gameImageUrl}
+                key={g.games.id}
+                title={g.games.gameTitle}
+                city={g.games.city}
+                state={g.games.state}
+                zipCode={g.games.zipCode}
+                date={moment(g.games.dateOfPlay).format("MMMM Do YYYY")}
+                time={moment(g.games.dateOfPlay).format("LT")}
+                players={g.games.players}
+                playersGoing={g.games.players.length}
+                playersNeeded={g.games.minPlayers - g.games.players.length}
+                maxAllowed={g.games.maxPlayers - g.games.players.length}
+                gamePic={g.games.gameImageUrl}
               />
             )
           })}
