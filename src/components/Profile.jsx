@@ -59,7 +59,7 @@ const Profile = () => {
             <>
               <h4>You aren't hosting any upcoming games! Let's fix that!</h4>
               <div className="hand-point-down">{HandPointDown}</div>
-              <Link to="/new/game" className="sign-in-button">
+              <Link to="/new/game" className="sign-in-button-white">
                 Start a Game
               </Link>
             </>
@@ -94,37 +94,43 @@ const Profile = () => {
               </>
             )
           })}
-          <h3>Attending</h3>
+
           {upComingGames.length === 0 ? (
             <section className="upcoming-games">
+              <h3>Attending</h3>
               <h4>Oh no! You aren't signed up for any games yet!</h4>
               <div className="hand-point-down">{HandPointDown}</div>
-              <Link to="/browse/games" className="sign-in-button">
+              <Link to="/browse/games" className="sign-in-button-white">
                 Browse Games
               </Link>
             </section>
           ) : (
-            <></>
+            <>
+              <section className="upcoming-games">
+                <h3>Attending</h3>
+                {upComingGames.map((g, i) => {
+                  return (
+                    <GameInfo
+                      key={g.games.id}
+                      title={g.games.gameTitle}
+                      city={g.games.city}
+                      state={g.games.state}
+                      zipCode={g.games.zipCode}
+                      date={moment(g.games.dateOfPlay).format("MMMM Do YYYY")}
+                      time={moment(g.games.dateOfPlay).format("LT")}
+                      players={g.games.players}
+                      playersGoing={g.games.players.length}
+                      playersNeeded={
+                        g.games.minPlayers - g.games.players.length
+                      }
+                      maxAllowed={g.games.maxPlayers - g.games.players.length}
+                      gamePic={g.games.gameImageUrl}
+                    />
+                  )
+                })}
+              </section>
+            </>
           )}
-
-          {upComingGames.map((g, i) => {
-            return (
-              <GameInfo
-                key={g.games.id}
-                title={g.games.gameTitle}
-                city={g.games.city}
-                state={g.games.state}
-                zipCode={g.games.zipCode}
-                date={moment(g.games.dateOfPlay).format("MMMM Do YYYY")}
-                time={moment(g.games.dateOfPlay).format("LT")}
-                players={g.games.players}
-                playersGoing={g.games.players.length}
-                playersNeeded={g.games.minPlayers - g.games.players.length}
-                maxAllowed={g.games.maxPlayers - g.games.players.length}
-                gamePic={g.games.gameImageUrl}
-              />
-            )
-          })}
         </section>
       </main>
     </>
