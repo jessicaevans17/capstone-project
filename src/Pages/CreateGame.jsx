@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import axios from "axios"
 import { useAuth0 } from "../react-auth0-wrapper"
 import signUpPic from "../images/signuppic.jpg"
+import { Redirect } from "react-router-dom"
 
 const CreateGame = () => {
   const { user, getIdTokenClaims } = useAuth0()
@@ -24,6 +25,7 @@ const CreateGame = () => {
   const [rulesUrl, setRulesUrl] = useState("")
   const [privateResidence, setPrivateResidence] = useState(true)
   const [locationCity, setLocationCity] = useState("")
+  const [game, setGame] = useState([])
 
   const getInfo = async title => {
     const resp = await axios.get(
@@ -75,6 +77,7 @@ const CreateGame = () => {
         }
       }
     )
+    setGame(resp.data)
     console.log(resp)
     setIsSubmitted(true)
     setTimeout(() => reset(), 2000)
@@ -251,6 +254,12 @@ const CreateGame = () => {
           {isSubmitted ? (
             <>
               <p className="game-created">Your game was created!</p>
+              <Redirect
+                to={{
+                  pathname: `/${game.id}`,
+                  state: { game }
+                }}
+              />
             </>
           ) : (
             <></>
