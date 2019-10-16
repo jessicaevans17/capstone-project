@@ -53,48 +53,49 @@ const Profile = () => {
           <img src={user.picture} alt="Profile" />
           <h1>{user.name}</h1>
         </section>
-        <section className="upcoming-games">
-          <h3>Hosting</h3>
-          {gamesHosting.length === 0 ? (
-            <>
-              <h4>You aren't hosting any upcoming games! Let's fix that!</h4>
-              <div className="hand-point-down">{HandPointDown}</div>
-              <Link to="/new/game" className="sign-in-button-white">
-                Start a Game
-              </Link>
-            </>
-          ) : (
-            <></>
-          )}
-          {gamesHosting.map((g, i) => {
-            return (
+        <section>
+          <section className="upcoming-games">
+            <h3>Hosting</h3>
+            {gamesHosting.length === 0 ? (
               <>
-                <GameInfo
-                  key={i}
-                  title={g.gameTitle}
-                  city={g.city}
-                  state={g.state}
-                  zipCode={g.zipCode}
-                  date={moment(g.dateOfPlay).format("MMMM Do YYYY")}
-                  time={moment(g.dateOfPlay).format("LT")}
-                  players={g.players}
-                  playersGoing={g.players.length}
-                  playersNeeded={g.minPlayers - g.players.length}
-                  maxAllowed={g.maxPlayers - g.players.length}
-                  gamePic={g.gameImageUrl}
-                />
-                <button
-                  className="cancel-button"
-                  onClick={e => {
-                    DeleteGame(g.id)
-                  }}
-                >
-                  Cancel Game
-                </button>
+                <h4>You aren't hosting any upcoming games! Let's fix that!</h4>
+                <div className="hand-point-down">{HandPointDown}</div>
+                <Link to="/new/game" className="sign-in-button-white">
+                  Start a Game
+                </Link>
               </>
-            )
-          })}
-
+            ) : (
+              <></>
+            )}
+            {gamesHosting.map((g, i) => {
+              return (
+                <>
+                  <GameInfo
+                    key={i}
+                    title={g.gameTitle}
+                    city={g.city}
+                    state={g.state}
+                    zipCode={g.zipCode}
+                    date={moment(g.dateOfPlay).format("MMMM Do YYYY")}
+                    time={moment(g.dateOfPlay).format("LT")}
+                    players={g.players}
+                    playersGoing={g.players.length}
+                    playersNeeded={g.minPlayers - g.players.length}
+                    maxAllowed={g.maxPlayers - g.players.length}
+                    gamePic={g.gameImageUrl}
+                  />
+                  <button
+                    className="cancel-button"
+                    onClick={e => {
+                      DeleteGame(g.id)
+                    }}
+                  >
+                    Cancel Game
+                  </button>
+                </>
+              )
+            })}
+          </section>
           {upComingGames.length === 0 ? (
             <section className="upcoming-games">
               <h3>Attending</h3>

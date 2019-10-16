@@ -28,7 +28,9 @@
     color: $secondary-color;
     background-color: $tertiary-color;
     margin-top: 2rem;
-    padding: 0rem 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0rem 0.5rem;
     @include md {
       padding: 0rem 6rem;
     }
