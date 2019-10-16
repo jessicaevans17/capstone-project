@@ -32,7 +32,11 @@ const User = props => {
           <h1>{data.name}</h1>
         </section>
         <section className="upcoming-games">
-          <h2>{`${data.firstName}'s upcoming games:`}</h2>
+          {data.firstName ? (
+            <h2>{`${data.firstName}'s upcoming games:`}</h2>
+          ) : (
+            <h2>Upcoming games</h2>
+          )}
           <div className="hand-point-down">{HandPointDown}</div>
           {upcomingGames.length === 0 ? (
             <section className="upcoming-games">

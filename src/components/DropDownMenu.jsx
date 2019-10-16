@@ -6,7 +6,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons"
 
 const DropDownMenu = () => {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
-  console.log(user)
+
   const Bars = <FontAwesomeIcon icon={faBars} />
   return (
     <>

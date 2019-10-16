@@ -9,6 +9,9 @@
   h1 {
     margin-bottom: 1rem;
     margin-right: 4rem;
+    @include md {
+      font-size: 2rem;
+    }
   }
 
   strong {
@@ -66,6 +69,9 @@
   justify-content: flex-start;
   align-items: center;
   padding-top: 1rem;
+
+  @include md {
+  }
 }
 
 .bold {
