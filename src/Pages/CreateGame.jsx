@@ -104,7 +104,7 @@ const CreateGame = () => {
     setLocationCity("")
   }
   return (
-    <main className="create-game-main">
+    <main className="create-game-main margin-top-8">
       <h1>Start your game</h1>
       <div className="form-container">
         <form className="game-form" onSubmit={submitData}>

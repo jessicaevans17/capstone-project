@@ -26,7 +26,7 @@ const User = props => {
 
   return (
     <>
-      <main className="user-page-main">
+      <main className="user-page-main margin-top-8">
         <section className="user-info">
           <img src={data.profileURL} alt="Profile" />
           <h1>{data.name}</h1>

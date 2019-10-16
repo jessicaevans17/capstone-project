@@ -82,7 +82,7 @@ const Game = props => {
 
   return (
     <>
-      <main className="game-details">
+      <main className="game-details margin-top-8">
         <section className="main-game-info bottom-border">
           <h1>{data.gameTitle}</h1>
           {data.gameImageUrl ? (

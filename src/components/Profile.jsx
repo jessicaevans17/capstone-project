@@ -46,7 +46,7 @@ const Profile = () => {
 
   return (
     <>
-      <main className="user-page-main">
+      <main className="user-page-main margin-top-8">
         <section className="user-info">
           <img src={user.picture} alt="Profile" />
           <h1>{user.name}</h1>

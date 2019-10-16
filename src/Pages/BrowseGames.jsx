@@ -21,7 +21,7 @@ const BrowseGames = () => {
 
   return (
     <>
-      <main className="browse-games-main">
+      <main className="browse-games-main margin-top-8">
         <h1>Find your next game</h1>
         <div className="browse-games-container">
           {games.map((game, i) => {

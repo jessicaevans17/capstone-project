@@ -11,7 +11,7 @@ const HomePage = () => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover"
         }}
-        className="main-homepage"
+        className="main-homepage margin-top-8"
       >
         <section className="content">
           <h1 className="main-prompt">
